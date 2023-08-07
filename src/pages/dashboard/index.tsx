@@ -1,13 +1,12 @@
 import { Button, Center, Heading, Input, Text, VStack } from "@chakra-ui/react";
 import { ChangeEvent, useEffect, useState } from "react";
 import { Socket, io } from "socket.io-client";
-import { DefaultEventsMap } from "socket.io/dist/typed-events";
 
 export default () => {
   const [input, setInput] = useState("");
   const [wordOfTheDay, setWordOfTheDay] = useState("");
   const [socket, setSocket] =
-    useState<Socket<DefaultEventsMap, DefaultEventsMap>>();
+    useState<Socket>();
   const [socketConnected, setSocketConnected] = useState(false);
 
   useEffect(() => {
@@ -18,7 +17,7 @@ export default () => {
     console.log("attempting to connect...");
     const res = await fetch("/api/play");
     console.log({ res });
-    const newSocket = await io({
+    const newSocket = io({
       path: "/api/play/",
     });
     setSocket(newSocket);
