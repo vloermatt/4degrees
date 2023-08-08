@@ -4,6 +4,7 @@ import { z } from "zod";
 import { env } from "~/env.mjs";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { Game, League } from "~/utils/types";
+import leagueData from "../../../../scripts/leagues.json";
 
 export const rugbyRouter = createTRPCRouter({
   getAPIUsage: publicProcedure.query(async ({ ctx }) => {
@@ -14,7 +15,7 @@ export const rugbyRouter = createTRPCRouter({
           headers: {
             "x-apisports-key": env.RUGBY_API,
           },
-        }
+        },
       );
       if (response.data.errors.requests) {
         return 100;
@@ -41,10 +42,10 @@ export const rugbyRouter = createTRPCRouter({
             headers: {
               "x-apisports-key": env.RUGBY_API,
             },
-          }
+          },
         );
         return {
-          // todo - verify that this in fact the response
+          // todo - find a better way to type these responses
           rugbyData: response.data.response as Game[],
         };
       } catch (err) {
@@ -56,17 +57,22 @@ export const rugbyRouter = createTRPCRouter({
       z.object({
         country: z.string(),
         season: z.string(),
-      })
+      }),
     )
     .query(async ({ ctx, input }) => {
       try {
+        if (leagueData) {
+          console.log("Returning local league data 🐷");
+          return leagueData as League[];
+        }
+        console.log("Fetching data 💸");
         const response = await axios.get(
           `https://v1.rugby.api-sports.io/leagues?country=${input.country}&season=${input.season}`,
           {
             headers: {
               "x-apisports-key": env.RUGBY_API,
             },
-          }
+          },
         );
         console.log(response.data);
         if (response.data.errors.requests) {
@@ -75,6 +81,7 @@ export const rugbyRouter = createTRPCRouter({
             code: "INTERNAL_SERVER_ERROR",
           });
         }
+        // todo - find a better way to type these responses
         return response.data.response as League[];
       } catch (err) {
         throw new TRPCError({

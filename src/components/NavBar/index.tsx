@@ -6,7 +6,7 @@ import RugbyAPIUsage from "../RugbyAPIUsage";
 export default (): JSX.Element => {
   return (
     <div className={`flex flex-row`}>
-      <div className="m-auto basis-1/12 self-center hover:scale-110">
+      <div className="m-auto basis-1/12 self-center transition delay-150 ease-in-out hover:scale-110">
         <Link href={"/"}>
           <img
             // todo - setup asset theme

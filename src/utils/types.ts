@@ -67,8 +67,8 @@ export type Game = {
 export type Country = {
   id: number;
   name: string;
-  code: string;
-  flag: string;
+  code: string | null;
+  flag: string | null;
 };
 
 export type Season = {
