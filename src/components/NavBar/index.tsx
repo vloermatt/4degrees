@@ -1,31 +1,40 @@
-import { Box, Button, Divider, Flex } from "@chakra-ui/react";
 import Link from "next/link";
-import { colors } from "~/theme/styles";
 import { NAV_ROUTES } from "~/utils/constants";
-import logo from "../../theme/assets/images/4degrees-compact.png";
+import logo from "../../assets/images/4degrees-compact.png";
 import RugbyAPIUsage from "../RugbyAPIUsage";
 
 export default (): JSX.Element => {
   return (
-    <Flex
-      padding={5}
-      backgroundColor={colors.secondary[500]}
-      flexDirection={"column"}
-      width={"25%"}
-    >
-      <img
-        // todo - setup asset theme
-        src={logo.src}
-      />
-      {NAV_ROUTES.map((navRoute) => (
-        <Box key={navRoute.path} margin={2}>
-          <Link href={navRoute.path}>
-            <Button width={"100%"}>{navRoute.title}</Button>
-          </Link>
-        </Box>
-      ))}
-      <Divider marginTop={5} marginBottom={5} borderColor={colors.brand[100]} />
-      <RugbyAPIUsage />
-    </Flex>
+    <div className={`flex flex-row`}>
+      <div className="m-auto basis-1/12 self-center hover:scale-110">
+        <Link href={"/"}>
+          <img
+            // todo - setup asset theme
+            src={logo.src}
+            className="w-3/5"
+          />
+        </Link>
+      </div>
+      <div
+        className={`grid grid-flow-col auto-col-${NAV_ROUTES.length} w-1/2 self-center`}
+      >
+        {NAV_ROUTES.filter((navRoute) => navRoute.path !== "/").map(
+          (navRoute) => (
+            <div>
+              <Link
+                className="hover:scale-110 hover:text-brand-400"
+                href={navRoute.path}
+                key={navRoute.path}
+              >
+                <button>{navRoute.title}</button>
+              </Link>
+            </div>
+          ),
+        )}
+      </div>
+      <div className="m-auto">
+        <RugbyAPIUsage />
+      </div>
+    </div>
   );
 };

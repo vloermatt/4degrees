@@ -1,20 +1,8 @@
-import {
-  Button,
-  Card,
-  Flex,
-  Heading,
-  Image,
-  SimpleGrid,
-  Spinner,
-  Text,
-  useToast,
-} from "@chakra-ui/react";
 import { useEffect } from "react";
 import { api } from "~/utils/api";
 import { League } from "~/utils/types";
 
 export default (): JSX.Element => {
-  const toast = useToast();
   const leaguesQuery = api.rugby.getLeagues.useQuery({
     country: "World",
     season: "2023",
@@ -25,47 +13,32 @@ export default (): JSX.Element => {
   }
   useEffect(() => {
     if (leaguesQuery.error) {
-      toast({
-        title: "Error Fetching League Data",
-        description: String(leaguesQuery.error),
-        isClosable: true,
-        position: "top-right",
-      });
+      alert(leaguesQuery.error);
     }
   }, [leaguesQuery.error]);
   return (
-    <Flex flexDirection={"column"} width={"100%"} padding={5}>
-      <Flex marginBottom={5}>
-        <Heading>World Rugby Leagues</Heading>
-      </Flex>
+    <div className="flex-col">
+      <div className="flex">
+        <h1>World Rugby Leagues</h1>
+      </div>
       {leaguesQuery.isLoading ? (
-        <Spinner />
+        <h1>loading...</h1>
       ) : (
-        <SimpleGrid columns={3}>
+        <>
           {leagues.map((league) => (
-            <Card key={league.id} alignItems={"start"} margin={2} padding={5}>
-              <Flex
-                flexDirection={"row"}
-                alignItems={"center"}
-                height={"100%"}
-                width="100%"
-              >
-                <Image height={"50px"} width={"50px"} src={league.logo} />
-                <Heading fontSize={20}>{league.name}</Heading>
-                <Text
-                  marginLeft={"auto"}
-                  alignSelf={"flex-start"}
-                  right={"5%"}
-                  fontWeight={600}
-                >
+            <div key={league.id} className="flex items-start">
+              <div className="flex-row items-center">
+                <img src={league.logo} />
+                <h2>{league.name}</h2>
+                <p className="ml-auto self-start font-semibold">
                   {league.seasons[0]?.season}
-                </Text>
-              </Flex>
-              <Button>Show more</Button>
-            </Card>
+                </p>
+              </div>
+              <button>Show more</button>
+            </div>
           ))}
-        </SimpleGrid>
+        </>
       )}
-    </Flex>
+    </div>
   );
 };

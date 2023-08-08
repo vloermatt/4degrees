@@ -1,6 +1,5 @@
-import { Card, Progress, Text } from "@chakra-ui/react";
-import { colors } from "~/theme/styles";
 import { api } from "~/utils/api";
+import { getBackgroundColor } from "./utils";
 
 export default (): JSX.Element => {
   const apiUsagequery = api.rugby.getAPIUsage.useQuery();
@@ -9,9 +8,18 @@ export default (): JSX.Element => {
     progress = apiUsagequery.data;
   }
   return (
-    <Card padding={2} backgroundColor={colors.secondary[600]} width={"100%"}>
-      <Text>Rugby API Usage </Text>
-      <Progress hasStripe value={progress} colorScheme="red" />
-    </Card>
+    <div>
+      <p>Rugby API Usage </p>
+
+      <div className="h-2.5 w-full rounded-full bg-gray-200">
+        <div
+          className={`h-2.5 rounded-full`}
+          style={{
+            width: `${progress}%`,
+            backgroundColor: getBackgroundColor(progress),
+          }}
+        />
+      </div>
+    </div>
   );
 };
