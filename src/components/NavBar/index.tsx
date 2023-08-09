@@ -5,13 +5,13 @@ import RugbyAPIUsage from "../RugbyAPIUsage";
 
 export default (): JSX.Element => {
   return (
-    <div className={`flex flex-row`}>
-      <div className="m-auto basis-1/12 self-center transition delay-150 ease-in-out hover:scale-110">
+    <div className={`flex flex-row border-b-4 border-green-700 bg-green-500`}>
+      <div className="m-auto basis-1/12 self-center ">
         <Link href={"/"}>
           <img
             // todo - setup asset theme
             src={logo.src}
-            className="w-3/5"
+            className="w-3/5 transition delay-150 ease-in-out hover:animate-spin-fast"
           />
         </Link>
       </div>
@@ -22,7 +22,7 @@ export default (): JSX.Element => {
           (navRoute) => (
             <div>
               <Link
-                className="hover:scale-110 hover:text-brand-400"
+                className="p-5 font-semibold hover:scale-110 hover:text-white"
                 href={navRoute.path}
                 key={navRoute.path}
               >

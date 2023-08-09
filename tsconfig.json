@@ -19,7 +19,8 @@
     "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"],
-      "@aui/*": ["./src/components/ui/*"]
+      "@aui/*": ["./src/components/ui/*"],
+      "@animations/*": ["./src/assets/animations/*"]
     }
   },
   "include": [

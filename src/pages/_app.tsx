@@ -6,7 +6,7 @@ import { api } from "~/utils/api";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
-    <main className="min-h-screen flex-col">
+    <main className="min-h-screen flex-col bg-black-500">
       <NavBar />
       <Component {...pageProps} />
     </main>

@@ -1,49 +1,44 @@
-import { useEffect } from "react";
-import { api } from "~/utils/api";
-import { League } from "~/utils/types";
-
+import loaderboard from "@animations/leaderboard.json";
+import sailor_walking from "@animations/sailor_walking.json";
+import Lottie from "react-lottie";
 export default (): JSX.Element => {
-  const leaguesQuery = api.rugby.getLeagues.useQuery({
-    country: "World",
-    season: "2023",
-  });
-  let leagues: League[] = [];
-  if (leaguesQuery.data) {
-    leagues = leaguesQuery.data;
-  }
-  useEffect(() => {
-    if (leaguesQuery.error) {
-      alert(leaguesQuery.error);
-    }
-  }, [leaguesQuery.error]);
   return (
-    <main className="min-h-screen flex-col bg-black-500 p-10">
-      <div className="flex">
-        <h1>World Rugby Leagues</h1>
-      </div>
-      {leaguesQuery.isLoading ? (
-        <h1>loading...</h1>
-      ) : (
-        <div className="grid grid-cols-5 gap-10">
-          {leagues.map((league) => (
-            <div
-              key={league.id}
-              className="border-green-800-500 border-3 m-auto flex h-full w-full flex-col rounded border-solid bg-green-500 p-4 shadow-lg shadow-green-700"
-            >
-              <p className="text-right font-semibold">
-                {league.seasons[0]?.season}
-              </p>
-              <img src={league.logo} className="m-auto" />
-              <p className="p-2 text-lg font-semibold">{league.name}</p>
-              <div className="flex flex-col text-right">
-                <button className="rounded bg-orange-500 p-2 font-semibold shadow-md shadow-orange-700 hover:bg-orange-400">
-                  View more
-                </button>
-              </div>
-            </div>
-          ))}
+    <main>
+      <div className="m-auto grid w-1/2 grid-cols-2 gap-10 p-10">
+        <div className="flex flex-col rounded bg-green-500 p-5 shadow-lg shadow-green-700">
+          <h2 className="text-3xl font-semibold text-white">Rugby Leagues</h2>
+          <div className="m-auto w-1/2">
+            <Lottie
+              options={{
+                animationData: loaderboard,
+                loop: false,
+                autoplay: true,
+              }}
+            />
+          </div>
+          <a
+            href="rugby/leagues"
+            className="rounded bg-orange-500 p-2 text-center font-semibold shadow-md shadow-orange-700 hover:bg-orange-400"
+          >
+            View more
+          </a>
         </div>
-      )}
+        <div className="flex flex-col rounded bg-green-500 p-5 shadow-lg shadow-green-700">
+          <h2 className="text-3xl font-semibold text-white">Tackle & Tally</h2>
+          <div className="m-auto w-1/2">
+            <Lottie
+              options={{
+                animationData: sailor_walking,
+                loop: true,
+                autoplay: true,
+              }}
+            />
+          </div>
+          <button className="rounded bg-orange-500 p-2 font-semibold shadow-md shadow-orange-700 hover:bg-orange-400">
+            View more
+          </button>
+        </div>
+      </div>
     </main>
   );
 };

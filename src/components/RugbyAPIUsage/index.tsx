@@ -2,9 +2,12 @@ import { api } from "~/utils/api";
 import { getBackgroundColor } from "./utils";
 
 export default (): JSX.Element => {
+  console.log("rendering api usage...");
   const apiUsagequery = api.rugby.getAPIUsage.useQuery();
   let progress = 0;
   if (apiUsagequery.data) {
+    console.log("stuff");
+    console.log(apiUsagequery.data);
     progress = apiUsagequery.data;
   }
   return (
