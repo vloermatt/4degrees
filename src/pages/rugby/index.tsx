@@ -17,7 +17,7 @@ export default (): JSX.Element => {
     }
   }, [leaguesQuery.error]);
   return (
-    <main className="min-h-screen flex-col bg-brand-300 p-10">
+    <main className="min-h-screen flex-col bg-black-500 p-10">
       <div className="flex">
         <h1>World Rugby Leagues</h1>
       </div>
@@ -28,16 +28,18 @@ export default (): JSX.Element => {
           {leagues.map((league) => (
             <div
               key={league.id}
-              className="m-auto h-full w-full rounded border-2 border-solid border-brand-500 bg-brand-500 p-4 shadow-lg shadow-cyan-500/50"
+              className="border-green-800-500 border-3 m-auto flex h-full w-full flex-col rounded border-solid bg-green-500 p-4 shadow-lg shadow-green-700"
             >
               <p className="text-right font-semibold">
                 {league.seasons[0]?.season}
               </p>
               <img src={league.logo} className="m-auto" />
               <p className="p-2 text-lg font-semibold">{league.name}</p>
-              <button className="border-solidborder-brand-500 float-right rounded border-2 p-2 font-semibold hover:bg-brand-500 hover:text-white">
-                View more
-              </button>
+              <div className="flex flex-col text-right">
+                <button className="rounded bg-orange-500 p-2 font-semibold shadow-md shadow-orange-700 hover:bg-orange-400">
+                  View more
+                </button>
+              </div>
             </div>
           ))}
         </div>
