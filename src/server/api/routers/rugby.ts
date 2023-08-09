@@ -82,7 +82,6 @@ export const rugbyRouter = createTRPCRouter({
         //   console.log("Returning local league data 🐷");
         //   return leagueData as League[];
         // }
-        console.log("Fetching data 💸");
         const response = await axios.get(
           `https://v1.rugby.api-sports.io/leagues?country=${input.country}&season=${input.season}`,
           {
@@ -91,7 +90,6 @@ export const rugbyRouter = createTRPCRouter({
             },
           },
         );
-        console.log(response.data);
         if (response.data.errors.requests) {
           throw new TRPCError({
             message: String(response.data.errors.requests),

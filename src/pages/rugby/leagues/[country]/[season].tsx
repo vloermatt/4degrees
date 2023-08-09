@@ -10,7 +10,6 @@ type Params = {
 export default (): JSX.Element => {
   const router = useRouter();
   const { country, season } = router.query as Params;
-  console.log(router.query);
   const leaguesQuery = api.rugby.getLeagues.useQuery({
     country: country ?? "",
     season: season ?? "",

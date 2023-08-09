@@ -8,7 +8,6 @@ export default (): JSX.Element => {
   const countriesQuery = api.rugby.getCountries.useQuery();
   let countries: Country[] = [];
   if (countriesQuery.data) {
-    console.log(countriesQuery.data);
     countries = countriesQuery.data;
   }
   useEffect(() => {
