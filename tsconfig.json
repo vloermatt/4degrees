@@ -20,7 +20,8 @@
     "paths": {
       "~/*": ["./src/*"],
       "@aui/*": ["./src/components/ui/*"],
-      "@animations/*": ["./src/assets/animations/*"]
+      "@animations/*": ["./src/assets/animations/*"],
+      "@images/*": ["./src/assets/images/*"]
     }
   },
   "include": [

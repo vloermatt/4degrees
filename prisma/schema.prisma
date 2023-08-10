@@ -10,9 +10,10 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Game {
+model Tally {
     id       String @id @default(cuid())
-    title    String
-    homeTeam String
-    awayTeam String
+    nickname String
+    avatar   String
+    away     Int
+    home     Int
 }

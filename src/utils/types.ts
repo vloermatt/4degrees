@@ -90,4 +90,6 @@ export type League = {
 export type NavRoute = {
   path: string;
   title: string;
+  hideNav?: boolean;
+  onNav?: boolean;
 };

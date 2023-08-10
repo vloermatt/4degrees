@@ -1,5 +1,6 @@
 import { rugbyRouter } from "~/server/api/routers/rugby";
 import { createTRPCRouter } from "~/server/api/trpc";
+import { tallyRouter } from "./routers/tally";
 
 /**
  * This is the primary router for your server.
@@ -8,6 +9,7 @@ import { createTRPCRouter } from "~/server/api/trpc";
  */
 export const appRouter = createTRPCRouter({
   rugby: rugbyRouter,
+  tally: tallyRouter,
 });
 
 // export type definition of API

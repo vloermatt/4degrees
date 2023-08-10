@@ -1,12 +1,10 @@
-import { Button, Center, Heading, Input, Text, VStack } from "@chakra-ui/react";
 import { ChangeEvent, useEffect, useState } from "react";
 import { Socket, io } from "socket.io-client";
 
 export default () => {
   const [input, setInput] = useState("");
   const [wordOfTheDay, setWordOfTheDay] = useState("");
-  const [socket, setSocket] =
-    useState<Socket>();
+  const [socket, setSocket] = useState<Socket>();
   const [socketConnected, setSocketConnected] = useState(false);
 
   useEffect(() => {
@@ -58,19 +56,17 @@ export default () => {
   };
   return (
     <>
-      <Center>
-        <VStack>
-          <Heading>some things are brewing...</Heading>
-          <Text>{`Socket connection state: ${socketConnected}`}</Text>
-          <Text>{`Word of the day: ${wordOfTheDay}`}</Text>
-          <Input
-            placeholder="Type something?"
-            value={input}
-            onChange={onChangeHandler}
-          />
-          <Button onClick={onButtonClick}>send it</Button>
-        </VStack>
-      </Center>
+      <div>
+        <div>some things are brewing...</div>
+        <div>{`Socket connection state: ${socketConnected}`}</div>
+        <div>{`Word of the day: ${wordOfTheDay}`}</div>
+        <input
+          placeholder="Type something?"
+          value={input}
+          onChange={onChangeHandler}
+        />
+        <div onClick={onButtonClick}>send it</div>
+      </div>
     </>
   );
 };

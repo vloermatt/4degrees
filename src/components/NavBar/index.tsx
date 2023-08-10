@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { NAV_ROUTES } from "~/utils/constants";
 import logo from "../../assets/images/4degrees-compact.png";
-import RugbyAPIUsage from "../RugbyAPIUsage";
 
 export default (): JSX.Element => {
   return (
@@ -18,23 +17,17 @@ export default (): JSX.Element => {
       <div
         className={`grid grid-flow-col auto-col-${NAV_ROUTES.length} w-1/2 self-center`}
       >
-        {NAV_ROUTES.filter((navRoute) => navRoute.path !== "/").map(
-          (navRoute) => (
-            <div>
-              <Link
-                className="p-5 font-semibold hover:scale-110 hover:text-white"
-                href={navRoute.path}
-                key={navRoute.path}
-              >
-                <button>{navRoute.title}</button>
-              </Link>
-            </div>
-          ),
-        )}
+        {NAV_ROUTES.filter((navRoute) => navRoute.onNav).map((navRoute) => (
+          <Link
+            className="p-5 font-semibold hover:scale-110 hover:text-white"
+            href={navRoute.path}
+            key={navRoute.path}
+          >
+            <button>{navRoute.title}</button>
+          </Link>
+        ))}
       </div>
-      <div className="m-auto">
-        <RugbyAPIUsage />
-      </div>
+      <div className="m-auto">{/* <RugbyAPIUsage /> */}</div>
     </div>
   );
 };

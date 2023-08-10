@@ -34,9 +34,12 @@ export default (): JSX.Element => {
               }}
             />
           </div>
-          <button className="rounded bg-orange-500 p-2 font-semibold shadow-md shadow-orange-700 hover:bg-orange-400">
+          <a
+            href="rugby/tally"
+            className="rounded bg-orange-500 p-2 text-center font-semibold shadow-md shadow-orange-700 hover:bg-orange-400"
+          >
             View more
-          </button>
+          </a>
         </div>
       </div>
     </main>
