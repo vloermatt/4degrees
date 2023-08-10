@@ -19,7 +19,7 @@ export default (): JSX.Element => {
       >
         {NAV_ROUTES.filter((navRoute) => navRoute.onNav).map((navRoute) => (
           <Link
-            className="p-5 font-semibold hover:scale-110 hover:text-white"
+            className="p-5 font-semibold hover:text-white"
             href={navRoute.path}
             key={navRoute.path}
           >

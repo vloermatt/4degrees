@@ -18,4 +18,20 @@ export const tallyRouter = createTRPCRouter({
         },
       });
     }),
+  getTallies: publicProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.tally.findMany();
+  }),
+  getTally: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      return await ctx.prisma.tally.findFirst({
+        where: {
+          id: input.id,
+        },
+      });
+    }),
 });
