@@ -21,7 +21,7 @@ export type Game = {
   time: string;
   timestamp: number;
   timezone: string;
-  week: string;
+  week: string | null;
   status: {
     long: string;
     short: string;
@@ -41,17 +41,17 @@ export type Game = {
     };
   };
   scores: {
-    home: number;
-    away: number;
+    home: number | null;
+    away: number | null;
   };
   periods: {
     first: {
-      home: number;
-      away: number;
+      home: number | null;
+      away: number | null;
     };
     second: {
-      home: number;
-      away: number;
+      home: number | null;
+      away: number | null;
     };
     overtime: {
       home: number | null;
@@ -84,7 +84,7 @@ export type League = {
   type: string;
   logo: string;
   country?: Country;
-  seasons: Season[];
+  seasons?: Season[];
 };
 
 export type NavRoute = {

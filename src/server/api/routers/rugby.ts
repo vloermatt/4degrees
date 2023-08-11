@@ -4,6 +4,7 @@ import { z } from "zod";
 import { env } from "~/env.mjs";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { Country, Game, League } from "~/utils/types";
+import gameData from "../../../../scripts/games.json";
 
 export const rugbyRouter = createTRPCRouter({
   getAPIUsage: publicProcedure.query(async ({ ctx }) => {
@@ -50,21 +51,29 @@ export const rugbyRouter = createTRPCRouter({
     }
   }),
   getGames: publicProcedure
-    .input(z.object({ leagueID: z.string(), season: z.string() }))
+    .input(
+      z.object({
+        leagueID: z.string(),
+        season: z.string(),
+        teamID: z.string(),
+      }),
+    )
     .query(async ({ ctx, input }) => {
+      if (gameData) {
+        return gameData as Game[];
+      }
       try {
         const response = await axios.get(
-          `https://v1.rugby.api-sports.io/games?league=${input.leagueID}&season=${input.season}`,
+          `https://v1.rugby.api-sports.io/games?league=${input.leagueID}&season=${input.season}&team=${input.teamID}`,
           {
             headers: {
               "x-apisports-key": env.RUGBY_API,
             },
           },
         );
-        return {
-          // todo - find a better way to type these responses
-          rugbyData: response.data.response as Game[],
-        };
+        // todo - find a better way to type these responses
+
+        return response.data.response as Game[];
       } catch (err) {
         console.log("err", err);
       }
@@ -72,7 +81,7 @@ export const rugbyRouter = createTRPCRouter({
   getLeagues: publicProcedure
     .input(
       z.object({
-        country: z.string(),
+        countryID: z.string(),
         season: z.string(),
       }),
     )
@@ -82,8 +91,9 @@ export const rugbyRouter = createTRPCRouter({
         //   console.log("Returning local league data 🐷");
         //   return leagueData as League[];
         // }
+        console.log(input);
         const response = await axios.get(
-          `https://v1.rugby.api-sports.io/leagues?country=${input.country}&season=${input.season}`,
+          `https://v1.rugby.api-sports.io/leagues?country_id=${input.countryID}&season=${input.season}`,
           {
             headers: {
               "x-apisports-key": env.RUGBY_API,

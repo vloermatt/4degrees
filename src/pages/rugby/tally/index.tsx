@@ -140,14 +140,9 @@ export default (): JSX.Element => {
                             src={"https://media-3.api-sports.io/flags/za.svg"}
                           />
                           <label className="font-semibold">Home</label>
-                          <input
-                            name="home"
-                            type="number"
-                            onChange={handleChange}
-                            placeholder="22"
-                            className="h-8 w-full self-center rounded p-2 text-center"
-                            readOnly={true}
-                          />
+                          <p className="text-4xl font-semibold">
+                            {values.home}
+                          </p>
                         </div>
                         <div>
                           <Lottie
@@ -163,14 +158,9 @@ export default (): JSX.Element => {
                             src={"https://media-3.api-sports.io/flags/gb.svg"}
                           />
                           <label className="font-semibold">Away</label>
-                          <input
-                            name="away"
-                            type="number"
-                            onChange={handleChange}
-                            placeholder={"14"}
-                            className="h-8 w-full self-center rounded p-2 text-center"
-                            readOnly={true}
-                          />
+                          <p className="text-4xl font-semibold">
+                            {values.away}
+                          </p>
                         </div>
                       </div>
                       <button
