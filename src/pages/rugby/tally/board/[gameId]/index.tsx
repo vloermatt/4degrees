@@ -1,12 +1,20 @@
 import { Tally } from "@prisma/client";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Socket, io } from "socket.io-client";
 import { api } from "~/utils/api";
-import UserTally from "./UserTally";
+import UserTally from "../UserTally";
 
+type Params = {
+  gameId: string;
+};
 export default (): JSX.Element => {
+  const router = useRouter();
+  const { gameId } = router.query as Params;
   const [tallies, setTallies] = useState<Tally[]>([]);
-  const getTalliesQuery = api.tally.getTallies.useQuery();
+  const getTalliesQuery = api.tally.getTallies.useQuery({
+    boardId: gameId,
+  });
 
   useEffect(() => {
     if (getTalliesQuery.data) {
@@ -52,6 +60,7 @@ export default (): JSX.Element => {
 
   return (
     <main>
+      <h1>{gameId}</h1>
       <div className="m-auto grid w-screen grid-cols-10 gap-5 p-5">
         {tallies.map((tally) => (
           <UserTally key={tally.id} tally={tally} socket={socket} />

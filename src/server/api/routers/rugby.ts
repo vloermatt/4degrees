@@ -59,6 +59,7 @@ export const rugbyRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
+      console.log("saving that money");
       if (gameData) {
         return gameData as Game[];
       }

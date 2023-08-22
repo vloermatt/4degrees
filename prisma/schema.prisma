@@ -11,9 +11,30 @@ datasource db {
 }
 
 model Tally {
-    id       String @id @default(cuid())
+    id       String     @id @default(cuid())
     nickname String
     avatar   String
     away     Int
     home     Int
+    boardId  String
+    board    TallyBoard @relation(fields: [boardId], references: [id])
+}
+
+model Team {
+    id              String       @id
+    name            String
+    logo            String
+    awayTallyBoards TallyBoard[] @relation("away_team")
+    homeTallyBoard  TallyBoard[] @relation("home_team")
+}
+
+model TallyBoard {
+    id       String  @id // this should be the game id
+    leagueId String
+    tallies  Tally[]
+    open     Boolean
+    away     Team    @relation("away_team", fields: [awayId], references: [id])
+    awayId   String
+    home     Team    @relation("home_team", fields: [homeId], references: [id])
+    homeId   String
 }

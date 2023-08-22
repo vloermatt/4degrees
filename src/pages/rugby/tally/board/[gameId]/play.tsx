@@ -4,12 +4,19 @@ import axios from "axios";
 import clsx from "clsx";
 import { Formik } from "formik";
 import { motion } from "framer-motion";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Lottie from "react-lottie";
 import { twMerge } from "tailwind-merge";
 import { api } from "~/utils/api";
 
+type Params = {
+  gameId: string;
+};
 export default (): JSX.Element => {
+  const router = useRouter();
+  const { gameId } = router.query as Params;
+
   const [tallyId, setTallyId] = useState<string | null>();
   const [animationKey, setAnimationKey] = useState(0);
 
@@ -19,22 +26,24 @@ export default (): JSX.Element => {
 
   useEffect(() => {
     if (typeof window !== undefined && window.localStorage) {
-      const tally_id = localStorage.getItem("tally_id");
-      console.log(tally_id);
-      setTallyId(tally_id);
+      const game_id_tally_id = localStorage.getItem(`${gameId}_tally_id`);
+      if (game_id_tally_id) {
+        setTallyId(game_id_tally_id?.split("_")[1]);
+      }
     }
-  }, []);
+  }, [gameId]);
+
+  const getTallyBoardQuery = api.tallyBoard.getTallyBoard.useQuery({
+    id: gameId,
+  });
 
   const getTallyQuery = api.tally.getTally.useQuery({
     id: tallyId ?? "",
   });
 
-  if (getTallyQuery.data) {
-    console.log(getTallyQuery.data);
-  }
   const createTallyMutation = api.tally.createTally.useMutation({
     onSuccess: (res) => {
-      localStorage.setItem("tally_id", res.id);
+      localStorage.setItem(`${gameId}_tally_id`, `${gameId}_${res.id}`);
       setTallyId(res.id);
       axios.post("/api/tally", res, {
         headers: {
@@ -73,6 +82,7 @@ export default (): JSX.Element => {
               avatar: getTallyQuery.data?.avatar ?? "",
               home: getTallyQuery.data?.home ?? 0,
               away: getTallyQuery.data?.away ?? 0,
+              boardId: gameId,
             }}
             onSubmit={handleCreate}
           >
@@ -136,10 +146,10 @@ export default (): JSX.Element => {
                       </p>
                       <div className="mt-10 grid grid-cols-3">
                         <div className="h-full space-y-2 self-center">
-                          <img
-                            src={"https://media-3.api-sports.io/flags/za.svg"}
-                          />
-                          <label className="font-semibold">Home</label>
+                          <img src={getTallyBoardQuery.data?.home.logo ?? ""} />
+                          <label className="font-semibold">
+                            {getTallyBoardQuery.data?.home.name ?? "Home"}
+                          </label>
                           <p className="text-4xl font-semibold">
                             {values.home}
                           </p>
@@ -154,10 +164,10 @@ export default (): JSX.Element => {
                           />
                         </div>
                         <div className="h-full space-y-2 self-center">
-                          <img
-                            src={"https://media-3.api-sports.io/flags/gb.svg"}
-                          />
-                          <label className="font-semibold">Away</label>
+                          <img src={getTallyBoardQuery.data?.away.logo ?? ""} />
+                          <label className="font-semibold">
+                            {getTallyBoardQuery.data?.away.name ?? "Away"}
+                          </label>
                           <p className="text-4xl font-semibold">
                             {values.away}
                           </p>
@@ -178,10 +188,10 @@ export default (): JSX.Element => {
                   <>
                     <div className="grid grid-cols-3">
                       <div className="h-full space-y-2 self-center">
-                        <img
-                          src={"https://media-3.api-sports.io/flags/za.svg"}
-                        />
-                        <label className="font-semibold">Home</label>
+                        <img src={getTallyBoardQuery.data?.home.logo ?? ""} />
+                        <label className="font-semibold">
+                          {getTallyBoardQuery.data?.home.name ?? "Home"}
+                        </label>
                         <input
                           name="home"
                           type="number"
@@ -200,10 +210,10 @@ export default (): JSX.Element => {
                         />
                       </div>
                       <div className="h-full space-y-2 self-center">
-                        <img
-                          src={"https://media-3.api-sports.io/flags/gb.svg"}
-                        />
-                        <label className="font-semibold">Away</label>
+                        <img src={getTallyBoardQuery.data?.away.logo ?? ""} />
+                        <label className="font-semibold">
+                          {getTallyBoardQuery.data?.away.name ?? "Away"}
+                        </label>
                         <input
                           name="away"
                           type="number"

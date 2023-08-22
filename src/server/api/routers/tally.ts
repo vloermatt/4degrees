@@ -9,6 +9,7 @@ export const tallyRouter = createTRPCRouter({
         avatar: z.string(),
         home: z.number(),
         away: z.number(),
+        boardId: z.string(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -18,9 +19,19 @@ export const tallyRouter = createTRPCRouter({
         },
       });
     }),
-  getTallies: publicProcedure.query(async ({ ctx }) => {
-    return await ctx.prisma.tally.findMany();
-  }),
+  getTallies: publicProcedure
+    .input(
+      z.object({
+        boardId: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      return await ctx.prisma.tally.findMany({
+        where: {
+          boardId: input.boardId,
+        },
+      });
+    }),
   getTally: publicProcedure
     .input(
       z.object({
