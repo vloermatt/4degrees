@@ -4,7 +4,6 @@ import { z } from "zod";
 import { env } from "~/env.mjs";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { Country, Game, League } from "~/utils/types";
-import gameData from "../../../../scripts/games.json";
 
 export const rugbyRouter = createTRPCRouter({
   getAPIUsage: publicProcedure.query(async ({ ctx }) => {
@@ -59,10 +58,10 @@ export const rugbyRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
-      console.log("saving that money");
-      if (gameData) {
-        return gameData as Game[];
-      }
+      // console.log("saving that money");
+      // if (gameData) {
+      //   return gameData as Game[];
+      // }
       try {
         const response = await axios.get(
           `https://v1.rugby.api-sports.io/games?league=${input.leagueID}&season=${input.season}&team=${input.teamID}`,

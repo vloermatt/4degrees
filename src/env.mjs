@@ -9,7 +9,8 @@ export const env = createEnv({
   server: {
     DATABASE_URL: z.string().url(),
     NODE_ENV: z.enum(["development", "test", "production"]),
-    RUGBY_API: z.string()
+    RUGBY_API: z.string(),
+    HOST: z.string().url(),
   },
 
   /**
@@ -19,6 +20,7 @@ export const env = createEnv({
    */
   client: {
     // NEXT_PUBLIC_CLIENTVAR: z.string().min(1),
+    NEXT_PUBLIC_HOST: z.string().url(),
   },
 
   /**
@@ -28,7 +30,9 @@ export const env = createEnv({
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
-    RUGBY_API: process.env.RUGBY_API
+    RUGBY_API: process.env.RUGBY_API,
+    HOST: process.env.HOST,
+    NEXT_PUBLIC_HOST: process.env.NEXT_PUBLIC_HOST,
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
   /**

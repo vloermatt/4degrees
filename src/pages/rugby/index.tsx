@@ -35,7 +35,7 @@ export default (): JSX.Element => {
             />
           </div>
           <a
-            href="rugby/tally"
+            href="rugby/tally/board"
             className="rounded bg-orange-500 p-2 text-center font-semibold shadow-md shadow-orange-700 hover:bg-orange-400"
           >
             View more

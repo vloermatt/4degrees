@@ -1,7 +1,11 @@
+import versus from "@animations/versus.json";
 import { Tally } from "@prisma/client";
 import { useRouter } from "next/router";
+import { QRCodeCanvas } from "qrcode.react";
 import { useEffect, useState } from "react";
+import Lottie from "react-lottie";
 import { Socket, io } from "socket.io-client";
+import { env } from "~/env.mjs";
 import { api } from "~/utils/api";
 import UserTally from "../UserTally";
 
@@ -15,6 +19,9 @@ export default (): JSX.Element => {
   const getTalliesQuery = api.tally.getTallies.useQuery({
     boardId: gameId,
   });
+  const getTallyBoardQuery = api.tallyBoard.getTallyBoard.useQuery({
+    id: gameId,
+  });
 
   useEffect(() => {
     if (getTalliesQuery.data) {
@@ -23,6 +30,11 @@ export default (): JSX.Element => {
   }, [getTalliesQuery.data]);
   const [socket, setSocket] = useState<Socket>();
   const [socketConnected, setSocketConnected] = useState(false);
+  const [scores, setScores] = useState({
+    home: 0,
+    away: 0,
+  });
+  const [winningId, setWinningId] = useState<string | null>();
 
   const socketInitializer = async () => {
     console.log("attempting to connect...");
@@ -37,6 +49,117 @@ export default (): JSX.Element => {
   useEffect(() => {
     socketInitializer();
   }, []);
+
+  const rankTallies = () => {
+    console.log("ranking tallies...");
+    const homeWinners = scores.home > scores.away;
+    const winningTeam = homeWinners ? "home" : "away";
+    const isDraw = scores.home === scores.away;
+    const winningMargin = homeWinners
+      ? Math.abs(scores.home - scores.away)
+      : Math.abs(scores.away - scores.home);
+    // add +5 points to tallies that guessed the correct winner
+    let tallyList =
+      tallies?.map((tally) => {
+        const playerScore = homeWinners
+          ? tally.home > tally.away
+            ? 5 * tallies.length
+            : 0
+          : tally.away > tally.home
+          ? 5 * tallies.length
+          : 0;
+        return {
+          ...tally,
+          score: playerScore,
+        };
+      }) ?? [];
+    // group tallies by closest margin to draw and add +4 x rank points
+    Object.values(
+      tallyList.reduce((acc: Record<string, typeof tallyList>, item) => {
+        const margin = Math.abs(
+          item[winningTeam] - scores[winningTeam === "home" ? "away" : "home"],
+        );
+
+        if (!acc[margin]) {
+          acc[margin] = [];
+        }
+        //@ts-ignore
+        acc[margin].push(item);
+        return acc;
+      }, {}),
+    ).forEach((group, index) => {
+      console.log({ marginGroup: group });
+      group.forEach((tally) => {
+        tallyList = tallyList.map((t) => {
+          if (t.id === tally.id) {
+            return {
+              ...t,
+              score: t.score + 4 * (tallies.length - index + 1),
+            };
+          }
+          return t;
+        });
+      });
+    });
+    // group tallies by closest margin to winner and add +3 x rank points
+    Object.values(
+      tallyList.reduce((acc: Record<string, typeof tallyList>, item) => {
+        const difference = Math.abs(item[winningTeam] - scores[winningTeam]);
+
+        if (!acc[difference]) {
+          acc[difference] = [];
+        }
+        //@ts-ignore
+        acc[difference].push(item);
+        return acc;
+      }, {}),
+    ).forEach((group, index) => {
+      console.log({ winningDifferenceGroup: group });
+      group.forEach((tally) => {
+        tallyList = tallyList.map((t) => {
+          if (t.id === tally.id) {
+            return {
+              ...t,
+              score: t.score + 3 * (tallies.length - index + 1),
+            };
+          }
+          return t;
+        });
+      });
+    });
+    // group tallies by closest margin to loser and add +2 x rank points
+    Object.values(
+      tallyList.reduce((acc: Record<string, typeof tallyList>, item) => {
+        const difference = Math.abs(
+          item[winningTeam === "away" ? "away" : "home"] -
+            scores[winningTeam === "away" ? "away" : "home"],
+        );
+
+        if (!acc[difference]) {
+          acc[difference] = [];
+        }
+        //@ts-ignore
+        acc[difference].push(item);
+        return acc;
+      }, {}),
+    ).forEach((group, index) => {
+      console.log({ losingDifferenceGroup: group });
+      group.forEach((tally) => {
+        tallyList = tallyList.map((t) => {
+          if (t.id === tally.id) {
+            return {
+              ...t,
+              score: t.score + 2 * (tallies.length - index + 1),
+            };
+          }
+          return t;
+        });
+      });
+    });
+    tallyList.sort((a, b) => b.score - a.score);
+    console.log({ tallyList });
+    return tallyList[0]?.id;
+  };
 
   useEffect(() => {
     console.log("on tally!");
@@ -58,12 +181,57 @@ export default (): JSX.Element => {
     });
   }, [socket?.on]);
 
+  useEffect(() => {
+    if (getTallyBoardQuery.data) {
+      setScores({
+        home: getTallyBoardQuery.data.homeScore,
+        away: getTallyBoardQuery.data.awayScore,
+      });
+    }
+  }, [getTallyBoardQuery.data]);
+
+  useEffect(() => {
+    setWinningId(rankTallies());
+  }, [tallies, scores]);
+
   return (
-    <main>
+    <main className="relative">
       <h1>{gameId}</h1>
+      <div className="m-auto w-1/3">
+        <div className="grid grid-cols-3">
+          <div className="h-full space-y-2 self-center">
+            <img src={getTallyBoardQuery.data?.home.logo ?? ""} />
+          </div>
+          <div>
+            <Lottie
+              options={{
+                animationData: versus,
+                loop: false,
+                autoplay: true,
+              }}
+            />
+          </div>
+          <div className="relative h-full space-y-2 self-center">
+            <img src={getTallyBoardQuery.data?.away.logo ?? ""} />
+          </div>
+        </div>
+        <div>
+          <p className="text-4xl font-semibold">{scores.home}</p>
+          <p className="text-4xl font-semibold">{scores.away}</p>
+        </div>
+      </div>
+      <QRCodeCanvas
+        className="absolute right-10 top-10"
+        value={env.NEXT_PUBLIC_HOST + "/rugby/tally/board/" + gameId + "/play"}
+      />
       <div className="m-auto grid w-screen grid-cols-10 gap-5 p-5">
         {tallies.map((tally) => (
-          <UserTally key={tally.id} tally={tally} socket={socket} />
+          <UserTally
+            key={tally.id}
+            tally={tally}
+            socket={socket}
+            isWinning={winningId === tally.id}
+          />
         ))}
       </div>
     </main>

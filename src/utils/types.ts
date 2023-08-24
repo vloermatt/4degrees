@@ -93,3 +93,8 @@ export type NavRoute = {
   hideNav?: boolean;
   onNav?: boolean;
 };
+
+export type Score = {
+  home: number;
+  away: number;
+};

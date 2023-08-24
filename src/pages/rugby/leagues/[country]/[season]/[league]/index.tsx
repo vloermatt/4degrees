@@ -38,6 +38,13 @@ export default (): JSX.Element => {
     createTallyBoard.mutate({
       id: gameId,
       leagueId: league ?? "",
+      leagueName: selectedGame?.league.name ?? "",
+      leagueCountry: selectedGame?.league.country?.name ?? "",
+      leagueLogo: selectedGame?.league.logo ?? "",
+      leagueType: selectedGame?.league.type ?? "",
+      season: selectedGame?.date
+        ? DateTime.fromISO(selectedGame.date).year.toString()
+        : "",
       open: true,
       home_id: selectedGame?.teams.home.id.toString() ?? "",
       home_name: selectedGame?.teams.home.name ?? "",

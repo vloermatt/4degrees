@@ -1,14 +1,17 @@
 import { Tally } from "@prisma/client";
+import clsx from "clsx";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Socket } from "socket.io-client";
+import { twMerge } from "tailwind-merge";
 
 interface Props {
   tally: Tally;
+  isWinning: boolean;
   socket?: Socket;
 }
 
-export default ({ tally, socket }: Props): JSX.Element => {
+export default ({ tally, socket, isWinning }: Props): JSX.Element => {
   const [animationKey, setAnimationKey] = useState<number>(0);
 
   const handleReplayAnimation = () => {
@@ -23,7 +26,28 @@ export default ({ tally, socket }: Props): JSX.Element => {
   }, [socket?.on]);
 
   return (
-    <div className="m-auto flex h-full w-full flex-col self-center rounded bg-green-500 p-5 text-center font-semibold shadow-lg shadow-green-700">
+    <div
+      // className="m-auto flex h-full w-full flex-col self-center rounded bg-green-500 p-5 text-center font-semibold shadow-lg shadow-green-700"
+      className={clsx(
+        twMerge(
+          clsx(
+            "m-auto",
+            "flex",
+            "h-full",
+            "w-full",
+            "flex-col",
+            "self-center",
+            "rounded",
+            isWinning ? "bg-amber-300" : "bg-green-500",
+            "p-5",
+            "text-center",
+            "font-semibold",
+            "shadow-lg",
+            "shadow-green-700",
+          ),
+        ),
+      )}
+    >
       <motion.div
         key={animationKey}
         animate={{

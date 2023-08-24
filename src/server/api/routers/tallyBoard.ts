@@ -1,60 +1,13 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import createBoard from "../resolvers/tallyBoard/createBoard";
+import CreateBoardSchema from "../schemas/CreateBoardSchema";
 
 export const tallyBoardRouter = createTRPCRouter({
   createBoard: publicProcedure
-    .input(
-      z.object({
-        id: z.string(),
-        leagueId: z.string(),
-        open: z.boolean(),
-        home_id: z.string(),
-        home_name: z.string(),
-        home_logo: z.string(),
-        away_id: z.string(),
-        away_name: z.string(),
-        away_logo: z.string(),
-      }),
-    )
+    .input(CreateBoardSchema)
     .mutation(async ({ ctx, input }) => {
-      // create board and teams participating in the game
-      const homeTeam = await ctx.prisma.team.findUnique({
-        where: {
-          id: input.home_id,
-        },
-      });
-      const awayTeam = await ctx.prisma.team.findUnique({
-        where: {
-          id: input.away_id,
-        },
-      });
-      if (!homeTeam) {
-        await ctx.prisma.team.create({
-          data: {
-            id: input.home_id,
-            name: input.home_name,
-            logo: input.home_logo,
-          },
-        });
-      }
-      if (!awayTeam) {
-        await ctx.prisma.team.create({
-          data: {
-            id: input.away_id,
-            name: input.away_name,
-            logo: input.away_logo,
-          },
-        });
-      }
-      return await ctx.prisma.tallyBoard.create({
-        data: {
-          id: input.id,
-          leagueId: input.leagueId,
-          open: input.open,
-          homeId: input.home_id,
-          awayId: input.away_id,
-        },
-      });
+      return await createBoard({ ctx, input });
     }),
   getTallyBoards: publicProcedure
     .input(
@@ -86,6 +39,10 @@ export const tallyBoardRouter = createTRPCRouter({
           open: true,
           homeId: true,
           awayId: true,
+          halfAwayScore: true,
+          halfHomeScore: true,
+          homeScore: true,
+          awayScore: true,
           home: {
             select: {
               id: true,

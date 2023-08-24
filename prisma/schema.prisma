@@ -28,13 +28,28 @@ model Team {
     homeTallyBoard  TallyBoard[] @relation("home_team")
 }
 
+model League {
+    id          String       @id
+    name        String
+    type        String
+    logo        String
+    countryName String
+    season      String
+    tallyBoard  TallyBoard[]
+}
+
 model TallyBoard {
-    id       String  @id // this should be the game id
-    leagueId String
-    tallies  Tally[]
-    open     Boolean
-    away     Team    @relation("away_team", fields: [awayId], references: [id])
-    awayId   String
-    home     Team    @relation("home_team", fields: [homeId], references: [id])
-    homeId   String
+    id            String  @id // this should be the game id
+    league        League  @relation(fields: [leagueId], references: [id])
+    leagueId      String
+    tallies       Tally[]
+    open          Boolean
+    away          Team    @relation("away_team", fields: [awayId], references: [id])
+    awayId        String
+    home          Team    @relation("home_team", fields: [homeId], references: [id])
+    homeId        String
+    halfHomeScore Int     @default(0)
+    halfAwayScore Int     @default(0)
+    homeScore     Int     @default(0)
+    awayScore     Int     @default(0)
 }
