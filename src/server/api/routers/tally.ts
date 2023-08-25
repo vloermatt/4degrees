@@ -13,6 +13,7 @@ export const tallyRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
+      console.log("input", input);
       return await ctx.prisma.tally.create({
         data: {
           ...input,

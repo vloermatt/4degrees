@@ -34,7 +34,7 @@ export default (): JSX.Element => {
     home: 0,
     away: 0,
   });
-  const [winningId, setWinningId] = useState<string | null>();
+  const [rankedTallies, setRankedTallies] = useState<Tally[]>([]);
 
   const socketInitializer = async () => {
     console.log("attempting to connect...");
@@ -73,7 +73,8 @@ export default (): JSX.Element => {
           score: playerScore,
         };
       }) ?? [];
-    // group tallies by closest margin to draw and add +4 x rank points
+    // group tallies by closest margin and add +4 x rank points
+    // todo - sort deez
     Object.values(
       tallyList.reduce((acc: Record<string, typeof tallyList>, item) => {
         const margin = Math.abs(
@@ -88,7 +89,6 @@ export default (): JSX.Element => {
         return acc;
       }, {}),
     ).forEach((group, index) => {
-      console.log({ marginGroup: group });
       group.forEach((tally) => {
         tallyList = tallyList.map((t) => {
           if (t.id === tally.id) {
@@ -114,7 +114,6 @@ export default (): JSX.Element => {
         return acc;
       }, {}),
     ).forEach((group, index) => {
-      console.log({ winningDifferenceGroup: group });
       group.forEach((tally) => {
         tallyList = tallyList.map((t) => {
           if (t.id === tally.id) {
@@ -143,7 +142,6 @@ export default (): JSX.Element => {
         return acc;
       }, {}),
     ).forEach((group, index) => {
-      console.log({ losingDifferenceGroup: group });
       group.forEach((tally) => {
         tallyList = tallyList.map((t) => {
           if (t.id === tally.id) {
@@ -156,9 +154,7 @@ export default (): JSX.Element => {
         });
       });
     });
-    tallyList.sort((a, b) => b.score - a.score);
-    console.log({ tallyList });
-    return tallyList[0]?.id;
+    return tallyList.sort((a, b) => b.score - a.score);
   };
 
   useEffect(() => {
@@ -191,7 +187,7 @@ export default (): JSX.Element => {
   }, [getTallyBoardQuery.data]);
 
   useEffect(() => {
-    setWinningId(rankTallies());
+    setRankedTallies(rankTallies());
   }, [tallies, scores]);
 
   return (
@@ -215,9 +211,13 @@ export default (): JSX.Element => {
             <img src={getTallyBoardQuery.data?.away.logo ?? ""} />
           </div>
         </div>
-        <div>
-          <p className="text-4xl font-semibold">{scores.home}</p>
-          <p className="text-4xl font-semibold">{scores.away}</p>
+        <div className="flex">
+          <p className="w-1/2 text-center text-4xl font-semibold">
+            {scores.home}
+          </p>
+          <p className="w-1/2 text-center text-4xl font-semibold">
+            {scores.away}
+          </p>
         </div>
       </div>
       <QRCodeCanvas
@@ -230,7 +230,9 @@ export default (): JSX.Element => {
             key={tally.id}
             tally={tally}
             socket={socket}
-            isWinning={winningId === tally.id}
+            rank={
+              rankedTallies.slice(0, 3).findIndex((t) => t.id === tally.id) + 1
+            }
           />
         ))}
       </div>

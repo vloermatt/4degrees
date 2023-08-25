@@ -53,6 +53,7 @@ export default (): JSX.Element => {
     },
   });
   const handleCreate = (values: Omit<Tally, "id">) => {
+    console.log(values);
     createTallyMutation.mutate({
       ...values,
       avatar: `https://api.dicebear.com/6.x/croodles/svg?seed=${values.nickname}`,

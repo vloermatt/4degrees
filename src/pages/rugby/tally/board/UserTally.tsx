@@ -7,11 +7,11 @@ import { twMerge } from "tailwind-merge";
 
 interface Props {
   tally: Tally;
-  isWinning: boolean;
+  rank?: number;
   socket?: Socket;
 }
 
-export default ({ tally, socket, isWinning }: Props): JSX.Element => {
+export default ({ tally, socket, rank }: Props): JSX.Element => {
   const [animationKey, setAnimationKey] = useState<number>(0);
 
   const handleReplayAnimation = () => {
@@ -24,6 +24,21 @@ export default ({ tally, socket, isWinning }: Props): JSX.Element => {
       handleReplayAnimation();
     });
   }, [socket?.on]);
+
+  const getColorByRank = (rank?: number) => {
+    console.log(rank);
+    if (!rank) {
+      return "bg-green-500";
+    }
+    switch (rank) {
+      case 1:
+        return "bg-yellow-300";
+      case 2:
+        return "bg-gray-300";
+      case 3:
+        return "bg-amber-500";
+    }
+  };
 
   return (
     <div
@@ -38,7 +53,7 @@ export default ({ tally, socket, isWinning }: Props): JSX.Element => {
             "flex-col",
             "self-center",
             "rounded",
-            isWinning ? "bg-amber-300" : "bg-green-500",
+            getColorByRank(rank),
             "p-5",
             "text-center",
             "font-semibold",
