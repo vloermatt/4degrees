@@ -20,6 +20,10 @@ export const tallyBoardRouter = createTRPCRouter({
         where: {
           leagueId: input.leagueId,
         },
+        include: {
+          home: true,
+          away: true,
+        },
       });
     }),
   getTallyBoard: publicProcedure

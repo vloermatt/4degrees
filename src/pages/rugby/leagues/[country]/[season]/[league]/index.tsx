@@ -96,11 +96,15 @@ export default (): JSX.Element => {
                   key={game.id}
                   className="border-green-800-500 border-3 relative m-auto flex h-full w-full flex-col rounded border-solid bg-green-500 p-4 text-center shadow-lg shadow-green-700"
                 >
-                  <div className="absolute -right-5 -top-5 h-[150px] w-[150px]  overflow-hidden before:absolute before:left-3 before:-z-[1] before:block before:border-[12px] before:border-orange-700 before:content-['']">
-                    <div className=" relative right-12 top-10 w-[300px] rotate-45 bg-orange-500 p-2 text-center ">
-                      <span>COMING UP!</span>
+                  {DateTime.fromISO(game.date) > DateTime.now() ? (
+                    <div className="absolute -right-5 -top-5 h-[150px] w-[150px]  overflow-hidden before:absolute before:left-3 before:-z-[1] before:block before:border-[12px] before:border-orange-700 before:content-['']">
+                      <div className=" relative right-12 top-10 w-[300px] rotate-45 bg-orange-500 p-2 text-center ">
+                        <span>COMING UP!</span>
+                      </div>
                     </div>
-                  </div>
+                  ) : (
+                    <></>
+                  )}
                   <div className="grid grid-cols-3 items-center">
                     <img src={game.teams.home.logo} />
                     <div>
@@ -113,9 +117,9 @@ export default (): JSX.Element => {
                       />
                     </div>
                     <img src={game.teams.away.logo} />
-                    <p className="text-4xl font-semibold">{game.scores.away}</p>
-                    <div />
                     <p className="text-4xl font-semibold">{game.scores.home}</p>
+                    <div />
+                    <p className="text-4xl font-semibold">{game.scores.away}</p>
                   </div>
                   <div className="text-lg font-semibold">
                     {DateTime.fromISO(game.date).toLocaleString(

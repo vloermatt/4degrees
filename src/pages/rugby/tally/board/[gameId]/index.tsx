@@ -223,6 +223,7 @@ export default (): JSX.Element => {
       <QRCodeCanvas
         className="absolute right-10 top-10"
         value={env.NEXT_PUBLIC_HOST + "/rugby/tally/board/" + gameId + "/play"}
+        size={256}
       />
       <div className="m-auto grid w-screen grid-cols-10 gap-5 p-5">
         {tallies.map((tally) => (

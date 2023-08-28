@@ -81,7 +81,7 @@ export default ({ tally, socket, rank }: Props): JSX.Element => {
       >
         <img src={tally.avatar} />
       </motion.div>
-      <p>{tally.nickname}</p>
+      <p className="break-words">{tally.nickname}</p>
       <p>
         {tally.home} / {tally.away}
       </p>
