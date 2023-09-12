@@ -1,12 +1,13 @@
-import Link from "next/link";
 import { NAV_ROUTES } from "~/utils/constants";
+import Link from "next/link";
+
 import logo from "../../assets/images/4degrees-compact.png";
 
 export default (): JSX.Element => {
   return (
-    <div className={`flex flex-row border-b-4 border-green-700 bg-green-500`}>
+    <div className={`flex flex-row border-b-2 border-green-700 bg-green-500`}>
       <div className="m-auto basis-1/12 self-center ">
-        <Link href={"/"}>
+        <Link href={"/rugby"}>
           <img
             // todo - setup asset theme
             src={logo.src}

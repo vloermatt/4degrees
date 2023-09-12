@@ -6,6 +6,7 @@ import Lottie from "react-lottie";
 import ModalConfirmation from "~/components/ModalConfirmation";
 import { api } from "~/utils/api";
 import { Game } from "~/utils/types";
+
 type Params = {
   country: string;
   season: string;
@@ -19,7 +20,6 @@ export default (): JSX.Element => {
   const gamesQuery = api.rugby.getGames.useQuery({
     leagueID: league ?? "",
     season: season ?? "",
-    teamID: "467", // south africa
   });
   const getTallyBoards = api.tallyBoard.getTallyBoards.useQuery({
     leagueId: league ?? "",

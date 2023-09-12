@@ -1,5 +1,9 @@
-import { z } from "zod";
+import { env } from "~/env.mjs";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import { Game } from "~/utils/types";
+import axios from "axios";
+import { z } from "zod";
+
 import createBoard from "../resolvers/tallyBoard/createBoard";
 import CreateBoardSchema from "../schemas/CreateBoardSchema";
 
@@ -61,6 +65,33 @@ export const tallyBoardRouter = createTRPCRouter({
               logo: true,
             },
           },
+        },
+      });
+    }),
+  updateTallyBoardScore: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      // fetch latest scores from rubgby api and update the board in the db
+      const response = await axios.get(
+        `https://v1.rugby.api-sports.io/games?id=${input.id}`,
+        {
+          headers: {
+            "x-apisports-key": env.RUGBY_API,
+          },
+        },
+      );
+      const game = response.data.response[0] as Game;
+      return await ctx.prisma.tallyBoard.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          homeScore: game.scores.home ?? 0,
+          awayScore: game.scores.away ?? 0,
         },
       });
     }),

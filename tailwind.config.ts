@@ -1,4 +1,5 @@
-import { type Config } from "tailwindcss";
+import { Config } from "tailwindcss";
+
 export default {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
@@ -8,17 +9,17 @@ export default {
       },
       colors: {
         brand: {
-          50: "#EAF3F5",
-          100: "#D5E6EC",
-          200: "#ABCDD9",
-          300: "#81B4C5",
-          400: "#579BB2",
-          500: "#40798C",
-          600: "#336170",
-          700: "#264954",
-          800: "#1A3038",
-          900: "#0D181C",
-          950: "#060C0E",
+          50: "#F1F6FD",
+          100: "#DFE9FB",
+          200: "#BFD4F7",
+          300: "#A4C1F4",
+          400: "#84ACF0",
+          500: "#6495EC",
+          600: "#296EE5",
+          700: "#1651B6",
+          800: "#0E3476",
+          900: "#071A3B",
+          950: "#040E20",
         },
         green: {
           50: "#E5FAF8",

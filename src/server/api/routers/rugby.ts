@@ -54,17 +54,17 @@ export const rugbyRouter = createTRPCRouter({
       z.object({
         leagueID: z.string(),
         season: z.string(),
-        teamID: z.string(),
+        teamID: z.string().optional(),
       }),
     )
     .query(async ({ ctx, input }) => {
-      // console.log("saving that money");
-      // if (gameData) {
-      //   return gameData as Game[];
-      // }
       try {
         const response = await axios.get(
-          `https://v1.rugby.api-sports.io/games?league=${input.leagueID}&season=${input.season}&team=${input.teamID}`,
+          `https://v1.rugby.api-sports.io/games?league=${
+            input.leagueID
+          }&season=${input.season}${
+            input.teamID ? `&team=${input.teamID}` : ""
+          }`,
           {
             headers: {
               "x-apisports-key": env.RUGBY_API,
@@ -72,8 +72,15 @@ export const rugbyRouter = createTRPCRouter({
           },
         );
         // todo - find a better way to type these responses
-
-        return response.data.response as Game[];
+        const games = response.data.response as Game[];
+        // sort by dates closest to today
+        games.sort((a, b) => {
+          return (
+            Math.abs(new Date(a.date).getTime() - new Date().getTime()) -
+            Math.abs(new Date(b.date).getTime() - new Date().getTime())
+          );
+        });
+        return games;
       } catch (err) {
         console.log("err", err);
       }

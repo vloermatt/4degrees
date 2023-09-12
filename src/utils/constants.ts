@@ -13,7 +13,6 @@ export const NAV_ROUTES: NavRoute[] = [
   {
     path: "/dashboard",
     title: "Word of the day",
-    onNav: true,
   },
   {
     path: "/rugby/tally",

@@ -1,5 +1,6 @@
 import versus from "@animations/versus.json";
 import { Tally } from "@prisma/client";
+import { api } from "~/utils/api";
 import axios from "axios";
 import clsx from "clsx";
 import { Formik } from "formik";
@@ -8,7 +9,6 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Lottie from "react-lottie";
 import { twMerge } from "tailwind-merge";
-import { api } from "~/utils/api";
 
 type Params = {
   gameId: string;
@@ -57,6 +57,7 @@ export default (): JSX.Element => {
     createTallyMutation.mutate({
       ...values,
       avatar: `https://api.dicebear.com/6.x/croodles/svg?seed=${values.nickname}`,
+      boardId: gameId,
     });
   };
   const onLetsGo = async () => {
@@ -197,7 +198,6 @@ export default (): JSX.Element => {
                           name="home"
                           type="number"
                           onChange={handleChange}
-                          placeholder="22"
                           className="h-8 w-full self-center rounded p-2 text-center"
                         />
                       </div>
@@ -219,7 +219,6 @@ export default (): JSX.Element => {
                           name="away"
                           type="number"
                           onChange={handleChange}
-                          placeholder={"14"}
                           className="h-8 w-full self-center rounded p-2 text-center"
                         />
                       </div>
@@ -228,7 +227,6 @@ export default (): JSX.Element => {
                     <input
                       name="nickname"
                       onChange={handleChange}
-                      placeholder="Beeg Mike"
                       className="h-8 rounded p-2"
                     />
                     <button

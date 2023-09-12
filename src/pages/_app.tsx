@@ -10,8 +10,8 @@ const MyApp: AppType = ({ Component, pageProps }) => {
   const router = useRouter();
   return (
     <main className="-z-10 min-h-screen flex-col bg-black-500">
-      {NAV_ROUTES.filter((navRoute) => navRoute.hideNav).some(
-        (navRoute) => navRoute.path === router.route,
+      {NAV_ROUTES.filter((navRoute) => navRoute.hideNav).some((navRoute) =>
+        router.route.includes(navRoute.path),
       ) ? (
         <></>
       ) : (

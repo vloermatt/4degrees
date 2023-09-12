@@ -1,8 +1,8 @@
 import versus from "@animations/versus.json";
+import { api } from "~/utils/api";
 import { DateTime } from "luxon";
 import { useRouter } from "next/router";
 import Lottie from "react-lottie";
-import { api } from "~/utils/api";
 
 export default (): JSX.Element => {
   const router = useRouter();
@@ -12,12 +12,12 @@ export default (): JSX.Element => {
   };
   return (
     <div>
-      <div className="m-auto grid w-screen grid-cols-4 gap-5 p-5">
+      <div className="m-auto grid min-h-screen w-screen grid-cols-4 gap-5 bg-gradient-to-b from-[#2e026d] to-[#15162c] p-5">
         {getTallyBoardsQuery.data?.map((tallyBoard) => (
           <div>
             <div
               key={tallyBoard.id}
-              className="border-green-800-500 border-3 relative m-auto flex h-full w-full flex-col rounded border-solid bg-green-500 p-4 text-center shadow-lg shadow-green-700"
+              className="border-green-800-500 border-3 relative m-auto flex w-full flex-col rounded border-solid bg-green-500 p-4 text-center shadow-lg shadow-green-700"
             >
               {DateTime.fromJSDate(tallyBoard.date) > DateTime.now() ? (
                 <div className="absolute -right-5 -top-5 h-[150px] w-[150px]  overflow-hidden before:absolute before:left-3 before:-z-[1] before:block before:border-[12px] before:border-orange-700 before:content-['']">

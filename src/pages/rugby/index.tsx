@@ -1,9 +1,10 @@
 import loaderboard from "@animations/leaderboard.json";
 import sailor_walking from "@animations/sailor_walking.json";
 import Lottie from "react-lottie";
+
 export default (): JSX.Element => {
   return (
-    <main>
+    <main className="min-h-screen bg-gradient-to-b from-[#2e026d] to-[#15162c]">
       <div className="m-auto grid w-1/2 grid-cols-2 gap-10 p-10">
         <div className="flex flex-col rounded bg-green-500 p-5 shadow-lg shadow-green-700">
           <h2 className="text-3xl font-semibold text-white">Rugby Leagues</h2>

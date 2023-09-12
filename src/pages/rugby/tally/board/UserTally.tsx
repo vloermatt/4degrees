@@ -25,24 +25,24 @@ export default ({ tally, socket, rank }: Props): JSX.Element => {
     });
   }, [socket?.on]);
 
-  const getColorByRank = (rank?: number) => {
-    console.log(rank);
+  const getClassByRank = (rank?: number) => {
     if (!rank) {
-      return "bg-green-500";
+      return ["bg-green-500"];
     }
     switch (rank) {
       case 1:
-        return "bg-yellow-300";
+        return ["bg-yellow-300"];
       case 2:
-        return "bg-gray-300";
+        return ["bg-gray-300"];
       case 3:
-        return "bg-amber-500";
+        return ["bg-amber-500"];
+      default:
+        return ["bg-green-500"];
     }
   };
 
   return (
     <div
-      // className="m-auto flex h-full w-full flex-col self-center rounded bg-green-500 p-5 text-center font-semibold shadow-lg shadow-green-700"
       className={clsx(
         twMerge(
           clsx(
@@ -53,12 +53,13 @@ export default ({ tally, socket, rank }: Props): JSX.Element => {
             "flex-col",
             "self-center",
             "rounded",
-            getColorByRank(rank),
+            ...getClassByRank(rank),
             "p-5",
             "text-center",
             "font-semibold",
             "shadow-lg",
-            "shadow-green-700",
+            "border-2",
+            "border-green-500",
           ),
         ),
       )}
@@ -70,7 +71,7 @@ export default ({ tally, socket, rank }: Props): JSX.Element => {
           rotate: [0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0],
           //   borderRadius: ["100%", "20%", "20%", "20%", "100%"],
         }}
-        className="m-auto w-5/6 rounded-full bg-white"
+        className="m-auto w-5/6 rounded-full bg-gradient-to-b from-brand-500 to-[#15162c]"
         transition={{
           duration: 2,
           ease: "easeInOut",
