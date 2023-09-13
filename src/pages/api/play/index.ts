@@ -1,14 +1,11 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { Server } from "socket.io";
+import { Server } from "Socket.IO";
 
-const SocketHandler = (req: NextApiRequest, res: NextApiResponse) => {
+const SocketHandler = (req: any, res: any) => {
   try {
-    //@ts-ignore
-    if (res?.socket?.server?.io instanceof Server) {
+    if (res.socket.server.io) {
       console.log("Socket is already running");
     } else {
       console.log("Socket is initializing");
-      //@ts-ignore
       const io = new Server(res.socket.server, {
         path: "/api/play",
         cors: {
@@ -17,7 +14,6 @@ const SocketHandler = (req: NextApiRequest, res: NextApiResponse) => {
         addTrailingSlash: false,
       });
       console.log(io.path());
-      //@ts-ignore
       res.socket.server.io = io;
     }
     res.end();

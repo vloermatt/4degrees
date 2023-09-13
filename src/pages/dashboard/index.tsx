@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { Socket, io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 
 export default () => {
   const [input, setInput] = useState("");
@@ -17,7 +17,6 @@ export default () => {
     console.log({ res });
     const newSocket = io({
       path: "/api/play/",
-      transports: ["websocket"],
     });
     setSocket(newSocket);
   };
