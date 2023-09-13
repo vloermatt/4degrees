@@ -1,5 +1,5 @@
-import { NAV_ROUTES } from "~/utils/constants";
 import Link from "next/link";
+import { NAV_ROUTES } from "~/utils/constants";
 
 import logo from "../../assets/images/4degrees-compact.png";
 

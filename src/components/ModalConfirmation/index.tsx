@@ -8,7 +8,7 @@ interface Props {
   onYes: () => void;
   yesText?: string;
 }
-export default ({
+const ModalConfirmtion = ({
   showModal,
   setShowModal,
   title,
@@ -68,3 +68,5 @@ export default ({
     </>
   );
 };
+
+export default ModalConfirmtion;
