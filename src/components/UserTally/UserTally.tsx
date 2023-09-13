@@ -11,7 +11,7 @@ interface Props {
   socket?: Socket;
 }
 
-export default ({ tally, socket, rank }: Props): JSX.Element => {
+const UserTally = ({ tally, socket, rank }: Props): JSX.Element => {
   const [animationKey, setAnimationKey] = useState<number>(0);
 
   const handleReplayAnimation = () => {
@@ -89,3 +89,5 @@ export default ({ tally, socket, rank }: Props): JSX.Element => {
     </div>
   );
 };
+
+export default UserTally;

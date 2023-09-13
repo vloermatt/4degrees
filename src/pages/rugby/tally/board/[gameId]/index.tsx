@@ -8,7 +8,7 @@ import { Socket, io } from "socket.io-client";
 import { env } from "~/env.mjs";
 import { api } from "~/utils/api";
 
-import UserTally from "../UserTally";
+import UserTally from "../../../../../components/UserTally/UserTally";
 
 type Params = {
   gameId: string;
