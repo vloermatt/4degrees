@@ -6,22 +6,22 @@ generator client {
 }
 
 datasource db {
-    provider = "sqlite"
+    provider = "mongodb"
     url      = env("DATABASE_URL")
 }
 
 model Tally {
-    id       String     @id @default(cuid())
+    id       String     @id @map("_id") @db.ObjectId
     nickname String
     avatar   String
     away     Int
     home     Int
-    boardId  String
+    boardId  String     @db.ObjectId
     board    TallyBoard @relation(fields: [boardId], references: [id])
 }
 
 model Team {
-    id              String       @id
+    id              String       @id @map("_id") @db.ObjectId
     name            String
     logo            String
     awayTallyBoards TallyBoard[] @relation("away_team")
@@ -29,7 +29,7 @@ model Team {
 }
 
 model League {
-    id          String       @id
+    id          String       @id @map("_id") @db.ObjectId
     name        String
     type        String
     logo        String
@@ -39,15 +39,15 @@ model League {
 }
 
 model TallyBoard {
-    id            String   @id // this should be the game id
+    id            String   @id @map("_id") @db.ObjectId // game-id
     league        League   @relation(fields: [leagueId], references: [id])
-    leagueId      String
+    leagueId      String   @db.ObjectId
     tallies       Tally[]
     open          Boolean
     away          Team     @relation("away_team", fields: [awayId], references: [id])
-    awayId        String
+    awayId        String   @db.ObjectId
     home          Team     @relation("home_team", fields: [homeId], references: [id])
-    homeId        String
+    homeId        String   @db.ObjectId
     halfHomeScore Int      @default(0)
     halfAwayScore Int      @default(0)
     homeScore     Int      @default(0)
