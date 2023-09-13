@@ -73,14 +73,17 @@ export const rugbyRouter = createTRPCRouter({
         );
         // todo - find a better way to type these responses
         const games = response.data.response as Game[];
-        // sort by dates closest to today
-        games.sort((a, b) => {
-          return (
-            Math.abs(new Date(a.date).getTime() - new Date().getTime()) -
-            Math.abs(new Date(b.date).getTime() - new Date().getTime())
-          );
-        });
-        return games;
+        // sort and filter games by date
+        return games
+          .filter(
+            (game) => new Date(game.date).getDate() >= new Date().getDate(),
+          )
+          .sort((a, b) => {
+            return (
+              Math.abs(new Date(a.date).getTime() - new Date().getTime()) -
+              Math.abs(new Date(b.date).getTime() - new Date().getTime())
+            );
+          });
       } catch (err) {
         console.log("err", err);
       }
