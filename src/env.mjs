@@ -30,7 +30,7 @@ export const env = createEnv({
     DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
     RUGBY_API: process.env.RUGBY_API,
-    NEXT_PUBLIC_HOST: process.env.VERCEL_URL,
+    NEXT_PUBLIC_HOST: process.env.NEXT_PUBLIC_HOST,
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
   /**
