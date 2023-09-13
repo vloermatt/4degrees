@@ -1,6 +1,6 @@
 const { Server } = require("socket.io");
 
-const SocketHandler = (req: any, res: any) => {
+const SocketHandler = (req, res) => {
   if (res.socket.server.io) {
     console.log("Socket is already running");
   } else {

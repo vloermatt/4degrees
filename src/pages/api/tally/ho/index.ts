@@ -1,6 +1,6 @@
 import { NextApiRequest } from "next";
 
-export default (req: NextApiRequest, res: any) => {
+export default (req: NextApiRequest, res) => {
   if (req.method === "POST") {
     // get message
     const body = req.body;
