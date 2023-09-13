@@ -11,17 +11,17 @@ datasource db {
 }
 
 model Tally {
-    id       String     @id @map("_id") @db.ObjectId
+    id       String     @id @default(auto()) @map("_id") @db.ObjectId
     nickname String
     avatar   String
     away     Int
     home     Int
-    boardId  String     @db.ObjectId
+    boardId  String
     board    TallyBoard @relation(fields: [boardId], references: [id])
 }
 
 model Team {
-    id              String       @id @map("_id") @db.ObjectId
+    id              String       @id @map("_id")
     name            String
     logo            String
     awayTallyBoards TallyBoard[] @relation("away_team")
@@ -29,7 +29,7 @@ model Team {
 }
 
 model League {
-    id          String       @id @map("_id") @db.ObjectId
+    id          String       @id @map("_id")
     name        String
     type        String
     logo        String
@@ -39,15 +39,15 @@ model League {
 }
 
 model TallyBoard {
-    id            String   @id @map("_id") @db.ObjectId // game-id
+    id            String   @id @map("_id") // game-id
     league        League   @relation(fields: [leagueId], references: [id])
-    leagueId      String   @db.ObjectId
+    leagueId      String
     tallies       Tally[]
     open          Boolean
     away          Team     @relation("away_team", fields: [awayId], references: [id])
-    awayId        String   @db.ObjectId
+    awayId        String
     home          Team     @relation("home_team", fields: [homeId], references: [id])
-    homeId        String   @db.ObjectId
+    homeId        String
     halfHomeScore Int      @default(0)
     halfAwayScore Int      @default(0)
     homeScore     Int      @default(0)

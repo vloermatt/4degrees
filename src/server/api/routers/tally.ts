@@ -40,6 +40,7 @@ export const tallyRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
+      if (!input.id) return null;
       return await ctx.prisma.tally.findFirst({
         where: {
           id: input.id,
