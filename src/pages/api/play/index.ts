@@ -1,5 +1,3 @@
-import { env } from "~/env.mjs";
-import { getBaseUrl } from "~/utils/api";
 import { Server } from "socket.io";
 
 const SocketHandler = (req: any, res: any) => {
@@ -10,9 +8,6 @@ const SocketHandler = (req: any, res: any) => {
       console.log("Socket is initializing");
       const io = new Server(res.socket.server, {
         path: "/api/play",
-        cors: {
-          origin: getBaseUrl(),
-        },
         addTrailingSlash: false,
       });
       console.log(io.path());

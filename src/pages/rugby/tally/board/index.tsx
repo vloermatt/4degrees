@@ -1,8 +1,8 @@
 import versus from "@animations/versus.json";
-import { api } from "~/utils/api";
 import { DateTime } from "luxon";
 import { useRouter } from "next/router";
 import Lottie from "react-lottie";
+import { api } from "~/utils/api";
 
 export default (): JSX.Element => {
   const router = useRouter();
@@ -14,7 +14,6 @@ export default (): JSX.Element => {
     <div>
       <div className="m-auto grid min-h-screen w-screen grid-cols-4 gap-5 bg-gradient-to-b from-[#2e026d] to-[#15162c] p-5">
         {getTallyBoardsQuery.data?.map((tallyBoard) => (
-          <div>
             <div
               key={tallyBoard.id}
               className="border-green-800-500 border-3 relative m-auto flex w-full flex-col rounded border-solid bg-green-500 p-4 text-center shadow-lg shadow-green-700"
@@ -58,7 +57,6 @@ export default (): JSX.Element => {
                 <p>View Tallies</p>
               </button>
             </div>
-          </div>
         ))}
       </div>
     </div>
