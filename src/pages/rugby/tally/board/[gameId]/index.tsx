@@ -52,7 +52,7 @@ export default (): JSX.Element => {
     console.log({ res });
     const newSocket = io({
       path: "/api/play/",
-      transports: ["websocket"],
+      forceNew: true,
     });
     setSocket(newSocket);
   };
