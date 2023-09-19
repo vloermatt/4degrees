@@ -9,6 +9,7 @@ const SocketHandler = (req: any, res: any) => {
       const io = new Server(res.socket.server, {
         path: "/api/play",
         addTrailingSlash: false,
+        transports: ["websocket"],
       });
       console.log(io.path());
       res.socket.server.io = io;
