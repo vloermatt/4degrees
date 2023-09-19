@@ -174,13 +174,14 @@ export default (): JSX.Element => {
 
   useEffect(() => {
     socket?.on("tally", (tally) => setTallies((val) => [...val, tally]));
-    socket?.on("disconnect", () => {
+    socket?.on("disconnect", (reason) => {
       setSocketConnected(false);
-      console.log("disconnected...");
+      console.log("disconnected ❌");
+      console.log('Disconnect reason', reason)
     });
     socket?.on("connect", () => {
       setSocketConnected(true);
-      console.log("connected!");
+      console.log("connected ✅");
     });
     socket?.on("connect_error", (err) => {
       console.log({ err });
