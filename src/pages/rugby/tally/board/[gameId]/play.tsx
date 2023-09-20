@@ -46,6 +46,7 @@ export default (): JSX.Element => {
       setTallyId(res.id);
     },
   });
+  const shakeTallyMutation = api.tally.shake.useMutation({});
   const handleCreate = (values: Omit<Tally, "id">) => {
     createTallyMutation.mutate({
       ...values,
@@ -54,14 +55,8 @@ export default (): JSX.Element => {
     });
   };
   const onLetsGo = async () => {
-    const res = await fetch("/api/tally/ho", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        id: tallyId,
-      }),
+    shakeTallyMutation.mutate({
+      id: tallyId ?? "",
     });
     handleReplayAnimation();
   };

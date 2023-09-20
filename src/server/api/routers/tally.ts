@@ -52,4 +52,13 @@ export const tallyRouter = createTRPCRouter({
         },
       });
     }),
+  shake: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      pusher.trigger("tally", input.id, input);
+    }),
 });
