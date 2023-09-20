@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import { pusher } from "~/utils/pusher";
 
 export const tallyRouter = createTRPCRouter({
   createTally: publicProcedure
@@ -14,11 +15,15 @@ export const tallyRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       console.log("input", input);
-      return await ctx.prisma.tally.create({
+      const tally = await ctx.prisma.tally.create({
         data: {
           ...input,
         },
       });
+      await pusher.trigger("rugby-tallies", tally.boardId, {
+        ...tally,
+      });
+      return tally;
     }),
   getTallies: publicProcedure
     .input(

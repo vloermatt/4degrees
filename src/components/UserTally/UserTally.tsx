@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Socket } from "socket.io-client";
 import { twMerge } from "tailwind-merge";
+import { pusherClient } from "~/utils/pusher-client";
 
 interface Props {
   tally: Tally;
@@ -20,10 +21,11 @@ const UserTally = ({ tally, socket, rank }: Props): JSX.Element => {
   };
 
   useEffect(() => {
-    socket?.on(tally.id, ({ id }) => {
+    const channel = pusherClient.subscribe("tally");
+    channel.bind(tally.id, function (data) {
       handleReplayAnimation();
     });
-  }, [socket?.on]);
+  }, []);
 
   const getClassByRank = (rank?: number) => {
     if (!rank) {

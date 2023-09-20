@@ -1,16 +1,11 @@
-import { NextApiRequest } from "next";
+import { NextApiRequest, NextApiResponse } from "next";
+import { pusher } from "~/utils/pusher";
 
-export default (req: NextApiRequest, res) => {
-  console.log("hit the tally!");
-  if (req.method === "POST") {
-    // get message
-    const message = req.body;
-
-    console.log("TALLY MESSAGE", message);
-    // dispatch to channel "message"
-    res?.socket?.server?.io?.emit("tally", message);
-
-    // return message
-    res.status(201).json(message);
-  }
+export const handler = (req: NextApiRequest, res: NextApiResponse) => {
+  pusher.trigger("my-channel", "my-event", {
+    message: "hello world",
+  });
+  res.status(200);
 };
+
+export default handler;

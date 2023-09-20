@@ -1,7 +1,5 @@
 import versus from "@animations/versus.json";
 import { Tally } from "@prisma/client";
-import { api } from "~/utils/api";
-import axios from "axios";
 import clsx from "clsx";
 import { Formik } from "formik";
 import { motion } from "framer-motion";
@@ -9,6 +7,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Lottie from "react-lottie";
 import { twMerge } from "tailwind-merge";
+import { api } from "~/utils/api";
 
 type Params = {
   gameId: string;
@@ -45,15 +44,9 @@ export default (): JSX.Element => {
     onSuccess: (res) => {
       localStorage.setItem(`${gameId}_tally_id`, `${gameId}_${res.id}`);
       setTallyId(res.id);
-      axios.post("/api/tally", res, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
     },
   });
   const handleCreate = (values: Omit<Tally, "id">) => {
-    console.log(values);
     createTallyMutation.mutate({
       ...values,
       avatar: `https://api.dicebear.com/6.x/croodles/svg?seed=${values.nickname}`,

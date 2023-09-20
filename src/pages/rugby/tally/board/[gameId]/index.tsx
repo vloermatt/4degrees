@@ -4,10 +4,10 @@ import { useRouter } from "next/router";
 import { QRCodeCanvas } from "qrcode.react";
 import { useEffect, useState } from "react";
 import Lottie from "react-lottie";
-import { Socket, io } from "socket.io-client";
 import { env } from "~/env.mjs";
 import { api } from "~/utils/api";
 
+import { pusherClient } from "~/utils/pusher-client";
 import UserTally from "../../../../../components/UserTally/UserTally";
 
 type Params = {
@@ -17,8 +17,6 @@ export default (): JSX.Element => {
   const router = useRouter();
   const { gameId } = router.query as Params;
   const [tallies, setTallies] = useState<Tally[]>([]);
-  const [socket, setSocket] = useState<Socket>();
-  const [socketConnected, setSocketConnected] = useState(false);
   const [scores, setScores] = useState({
     home: 0,
     away: 0,
@@ -46,20 +44,16 @@ export default (): JSX.Element => {
     }
   }, [getTalliesQuery.data]);
 
-  const socketInitializer = async () => {
-    console.log("attempting to connect...");
-    const res = await fetch("/api/play");
-    console.log({ res });
-    const newSocket = io({
-      path: "/api/play/",
-      forceNew: true,
-    });
-    setSocket(newSocket);
+  const onTally = (tally: Tally) => {
+    setTallies((tallies) => [...tallies, tally]);
   };
 
   useEffect(() => {
-    socketInitializer();
-  }, []);
+    const channel = pusherClient.subscribe("rugby-tallies");
+    channel.bind(gameId, function (data) {
+      onTally(data);
+    });
+  }, [gameId]);
 
   const rankTallies = () => {
     const homeWinners = scores.home > scores.away;
@@ -174,26 +168,6 @@ export default (): JSX.Element => {
   };
 
   useEffect(() => {
-    socket?.on("tally", (tally) => setTallies((val) => [...val, tally]));
-    socket?.on("disconnect", (reason) => {
-      setSocketConnected(false);
-      console.log("disconnected ❌");
-      console.log('Disconnect reason', reason)
-    });
-    socket?.on("connect", () => {
-      setSocketConnected(true);
-      console.log("connected ✅");
-    });
-    socket?.on("connect_error", (err) => {
-      console.log({ err });
-    });
-    socket?.on("tally-ho", ({ id }) => {
-      console.log("tally-hooo", id);
-      alert(id);
-    });
-  }, [socket?.on]);
-
-  useEffect(() => {
     if (getTallyBoardQuery.data) {
       setScores({
         home: getTallyBoardQuery.data.homeScore,
@@ -286,7 +260,6 @@ export default (): JSX.Element => {
           <UserTally
             key={tally.id}
             tally={tally}
-            socket={socket}
             rank={
               rankedTallies.slice(0, 3).findIndex((t) => t.id === tally.id) + 1
             }
