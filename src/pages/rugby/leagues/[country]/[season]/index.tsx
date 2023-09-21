@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import LoadingShip from "~/components/LoadingShip";
 import { api } from "~/utils/api";
 import { League } from "~/utils/types";
 
@@ -28,9 +29,9 @@ export default (): JSX.Element => {
     router.push(`/rugby/leagues/${country}/${season}/${leagueID}`);
   };
   return (
-    <main className="min-h-screen flex-col bg-black-500 p-10">
+    <main className="m-auto flex min-h-screen w-screen flex-col bg-gradient-to-b from-[#2e026d] to-[#15162c] p-5">
       {leaguesQuery.isLoading ? (
-        <h1>loading...</h1>
+        <LoadingShip />
       ) : (
         <div className="grid grid-cols-5 gap-10">
           {leagues.map((league) => (

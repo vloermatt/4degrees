@@ -3,6 +3,7 @@ import { DateTime } from "luxon";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Lottie from "react-lottie";
+import LoadingShip from "~/components/LoadingShip";
 import ModalConfirmation from "~/components/ModalConfirmation";
 import { api } from "~/utils/api";
 import { Game } from "~/utils/types";
@@ -78,9 +79,9 @@ export default (): JSX.Element => {
     }
   };
   return (
-    <>
+    <div className="m-auto flex min-h-screen w-screen flex-col bg-gradient-to-b from-[#2e026d] to-[#15162c] p-5">
       {gamesQuery.isLoading ? (
-        <h1>loading...</h1>
+        <LoadingShip />
       ) : (
         <>
           <div className="mb-5 flex p-10">
@@ -161,6 +162,6 @@ export default (): JSX.Element => {
           />
         </>
       )}
-    </>
+    </div>
   );
 };
