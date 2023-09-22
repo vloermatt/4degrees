@@ -45,7 +45,11 @@ export default (): JSX.Element => {
   }, [getTalliesQuery.data]);
 
   const onTally = (tally: Tally) => {
-    setTallies((tallies) => [...tallies, tally]);
+    setTallies((tallies) =>
+      tallies.some((item) => item.id === tally.id)
+        ? tallies
+        : [...tallies, tally],
+    );
   };
 
   useEffect(() => {

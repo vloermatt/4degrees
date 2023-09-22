@@ -16,7 +16,6 @@ const UserTally = ({ tally, socket, rank }: Props): JSX.Element => {
   const [animationKey, setAnimationKey] = useState<number>(0);
 
   const handleReplayAnimation = () => {
-    console.log("replaying animation");
     setAnimationKey((val) => val + 1);
   };
 
@@ -25,7 +24,7 @@ const UserTally = ({ tally, socket, rank }: Props): JSX.Element => {
     channel.bind(tally.id, function (data) {
       handleReplayAnimation();
     });
-  }, []);
+  }, [tally]);
 
   const getClassByRank = (rank?: number) => {
     if (!rank) {
