@@ -16,12 +16,14 @@ const UserTally = ({ tally, socket, rank }: Props): JSX.Element => {
   const [animationKey, setAnimationKey] = useState<number>(0);
 
   const handleReplayAnimation = () => {
+    console.log("replaying animation!");
     setAnimationKey((val) => val + 1);
   };
 
   useEffect(() => {
     const channel = pusherClient.subscribe("tally");
     channel.bind(tally.id, function (data) {
+      console.log("data", data);
       handleReplayAnimation();
     });
   }, [tally]);
@@ -64,6 +66,7 @@ const UserTally = ({ tally, socket, rank }: Props): JSX.Element => {
           ),
         ),
       )}
+      key={animationKey}
     >
       <motion.div
         key={animationKey}
