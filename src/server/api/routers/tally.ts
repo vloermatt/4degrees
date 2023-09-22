@@ -59,6 +59,6 @@ export const tallyRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      pusher.trigger("tally", input.id, input);
+      return await pusher.trigger("tally", input.id, input);
     }),
 });
