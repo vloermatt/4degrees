@@ -56,6 +56,7 @@ export const tallyRouter = createTRPCRouter({
     .input(
       z.object({
         id: z.string(),
+        message: z.string().optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {

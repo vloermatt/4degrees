@@ -14,17 +14,19 @@ interface Props {
 
 const UserTally = ({ tally, socket, rank }: Props): JSX.Element => {
   const [animationKey, setAnimationKey] = useState<number>(0);
+  const [message, setMessage] = useState("");
 
   const handleReplayAnimation = () => {
-    console.log("replaying animation!");
     setAnimationKey((val) => val + 1);
   };
 
   useEffect(() => {
     const channel = pusherClient.subscribe("tally");
     channel.bind(tally.id, function (data) {
-      console.log("data", data);
       handleReplayAnimation();
+      if (data.message) {
+        setMessage(data.message);
+      }
     });
   }, [tally]);
 
@@ -57,12 +59,13 @@ const UserTally = ({ tally, socket, rank }: Props): JSX.Element => {
             "self-center",
             "rounded",
             ...getClassByRank(rank),
-            "p-5",
+            "p-2",
             "text-center",
             "font-semibold",
             "shadow-lg",
             "border-2",
             "border-green-500",
+            "relative",
           ),
         ),
       )}
@@ -90,6 +93,11 @@ const UserTally = ({ tally, socket, rank }: Props): JSX.Element => {
       <p>
         {tally.home} / {tally.away}
       </p>
+      {message ? (
+        <div className="absolute right-[-20px] top-[-20px] flex h-10 w-fit items-center justify-center rounded-full bg-white p-2 shadow-lg">
+          <p>{message}</p>
+        </div>
+      ) : null}
     </div>
   );
 };

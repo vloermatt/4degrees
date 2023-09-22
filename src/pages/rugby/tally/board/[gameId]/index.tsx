@@ -259,7 +259,7 @@ export default (): JSX.Element => {
           size={256}
         />
       </div>
-      <div className="m-auto grid w-screen grid-cols-10 gap-5 p-5">
+      <div className="m-auto grid w-screen grid-cols-8 gap-5 p-5">
         {tallies.map((tally) => (
           <UserTally
             key={tally.id}

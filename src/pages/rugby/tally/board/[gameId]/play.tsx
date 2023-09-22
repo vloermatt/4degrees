@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Lottie from "react-lottie";
 import { twMerge } from "tailwind-merge";
+import LoadingShip from "~/components/LoadingShip";
 import { api } from "~/utils/api";
 
 type Params = {
@@ -54,9 +55,10 @@ export default (): JSX.Element => {
       boardId: gameId,
     });
   };
-  const onLetsGo = async () => {
+  const onLetsGo = async (banter: string) => {
     shakeTallyMutation.mutate({
       id: tallyId ?? "",
+      message: banter,
     });
     handleReplayAnimation();
   };
@@ -64,7 +66,7 @@ export default (): JSX.Element => {
     <main className="flex h-screen">
       <div className="m-auto flex h-screen w-screen flex-col self-center rounded bg-green-500 shadow-lg shadow-green-700">
         {getTallyQuery.isLoading ? (
-          <>LOADING...</>
+          <LoadingShip />
         ) : (
           <Formik
             initialValues={{
@@ -73,6 +75,7 @@ export default (): JSX.Element => {
               home: getTallyQuery.data?.home ?? 0,
               away: getTallyQuery.data?.away ?? 0,
               boardId: gameId,
+              banter: "",
             }}
             onSubmit={handleCreate}
           >
@@ -163,10 +166,21 @@ export default (): JSX.Element => {
                           </p>
                         </div>
                       </div>
+                      <div className="flex flex-col">
+                        <label className="text-left font-semibold">
+                          Banter
+                        </label>
+                        <input
+                          name="banter"
+                          onChange={handleChange}
+                          type="text"
+                          className="h-8 rounded p-2 text-black-900"
+                        />
+                      </div>
                       <button
                         onClick={(e) => {
                           e.preventDefault();
-                          onLetsGo();
+                          onLetsGo(values.banter);
                         }}
                         className="mt-5 w-full rounded bg-orange-500 p-2 text-center font-semibold shadow-md shadow-orange-700 hover:bg-orange-400"
                       >
