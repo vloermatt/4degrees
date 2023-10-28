@@ -48,7 +48,7 @@ export default (): JSX.Element => {
                 className="flex flex-col text-right"
                 onClick={() => handleRoute(league.id.toString())}
               >
-                <button className="rounded bg-orange-500 p-2 font-semibold shadow-md shadow-orange-700 hover:bg-orange-400">
+                <button className="rounded bg-brand-500 p-2 font-semibold shadow-md shadow-brand-700 hover:bg-brand-400">
                   View more
                 </button>
               </div>

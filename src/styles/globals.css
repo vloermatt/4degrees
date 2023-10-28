@@ -1,3 +1,115 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.user-tally-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+  gap: 10px;
+  padding: 0 10px;
+}
+
+.user-tally-container {
+  height: 200px;
+  width: 175px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+}
+
+.user-tally {
+  display: flex;
+  flex-direction: column;
+  height: 90%;
+  width: 90%;
+  border-radius: 5px;
+  text-align: center;
+  padding: 10px;
+  position: relative;
+  color: white;
+  z-index: 10;
+  border: 1px solid #57be46;
+}
+
+.user-tally-border {
+  position: absolute;
+  display: block;
+  top: -50%;
+  left: -50%;
+  z-index: 11;
+  height: 200%;
+  width: 200%;
+  transform: rotate(-45deg);
+  overflow: hidden;
+  animation: shine 15s linear infinite;
+}
+
+.user-tally-border-gold {
+  background: linear-gradient(
+    to right,
+    #fff0 20%,
+    #fff0 40%,
+    #d6b159 50%,
+    #ecd08c 55%,
+    #fff0 70%,
+    #fff0 100%
+  );
+  background-size: 200% auto;
+}
+
+.user-tally-border-silver {
+  background: linear-gradient(
+    to right,
+    #fff0 20%,
+    #fff0 40%,
+    #ffffff 50%,
+    #e7e7e7 55%,
+    #fff0 70%,
+    #fff0 100%
+  );
+  background-size: 200% auto;
+}
+
+.user-tally-border-bronze {
+  background: linear-gradient(
+    to right,
+    #fff0 20%,
+    #fff0 40%,
+    #c7c0b9 50%,
+    #ab9f93 55%,
+    #fff0 70%,
+    #fff0 100%
+  );
+  background-size: 200% auto;
+}
+
+/*Begin shimmer code*/
+
+@keyframes shine {
+  0% {
+    background-position: -5% center;
+  }
+  5% {
+    background-position: 150% center;
+  }
+  10% {
+    background-position: -5% center;
+  }
+  100% {
+    background-position: -5% center;
+  }
+}
+
+.banter {
+  position: absolute;
+  top: -5px;
+  left: -8px;
+  background-color: white;
+  color: black;
+  border-radius: 15px;
+  box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.5);
+  padding: 0 7px;
+}

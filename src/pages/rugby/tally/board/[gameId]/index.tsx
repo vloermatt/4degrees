@@ -185,10 +185,10 @@ export default (): JSX.Element => {
   }, [tallies, scores]);
 
   return (
-    <main className="relative min-h-screen bg-gradient-to-b from-[#2e026d] to-[#15162c]">
+    <main className="relative min-h-screen bg-gradient-to-tl from-[#00419a] to-[#57be46]">
       <div className="p-2" />
       <div className="grid grid-cols-3">
-        <div className="border-3 shadow-l m-auto w-5/6 rounded border-solid border-green-800 bg-white/10 p-4 text-white hover:bg-white/20">
+        <div className="border-3 shadow-l bg-white/10 hover:bg-white/20 m-auto w-5/6 rounded border-solid border-green-800 p-4 text-white-50">
           <h1 className="text-3xl font-bold">How to play:</h1>
           <ul className="mt-3">
             <h1 className="text-2xl font-bold">- Scan the QR-Code to enter</h1>
@@ -217,7 +217,7 @@ export default (): JSX.Element => {
             </div>
           </ul>
         </div>
-        <div className="border-green-800-500 border-3 m-auto h-[300px] w-full rounded border-solid bg-green-500 p-5 shadow-lg shadow-green-700">
+        <div className="border-green-800-500 border-3 m-auto flex h-[300px] w-full flex-col justify-between rounded border-solid bg-white-100 p-5 shadow-lg shadow-green-700">
           <div className="grid grid-cols-3">
             <div className="h-full space-y-2 self-center">
               <img src={getTallyBoardQuery.data?.home.logo ?? ""} />
@@ -231,24 +231,23 @@ export default (): JSX.Element => {
                 }}
               />
             </div>
-            <div className="relative h-full space-y-2 self-center">
+            <div className="relative flex h-full items-center space-y-2">
               <img src={getTallyBoardQuery.data?.away.logo ?? ""} />
             </div>
           </div>
-          <div className="grid grid-cols-3">
+          <div className="mb-5 grid grid-cols-3 justify-between text-black-700">
             <p className="text-center text-4xl font-semibold">{scores.home}</p>
-            <div />
+            <div className="m-auto flex w-full items-center">
+              <button
+                onClick={handleRefreshScores}
+                className="m-auto rounded bg-green-500 p-2 font-semibold text-white-50 shadow-md shadow-green-700 hover:bg-green-400"
+              >
+                {updateTallyBoardMutation.isLoading
+                  ? "Checking scores..."
+                  : `Refresh Scores`}
+              </button>
+            </div>
             <p className="text-center text-4xl font-semibold">{scores.away}</p>
-          </div>
-          <div className="m-auto flex w-full items-center">
-            <button
-              onClick={handleRefreshScores}
-              className="m-auto rounded bg-orange-500 p-2 text-center font-semibold shadow-md shadow-orange-700 hover:bg-orange-400"
-            >
-              {updateTallyBoardMutation.isLoading
-                ? "Checking scores..."
-                : `Refresh Scores`}
-            </button>
           </div>
         </div>
         <QRCodeCanvas
@@ -259,7 +258,7 @@ export default (): JSX.Element => {
           size={256}
         />
       </div>
-      <div className="m-auto grid w-screen grid-cols-8 gap-5 p-5">
+      <div className="user-tally-wrapper">
         {tallies.map((tally) => (
           <UserTally
             key={tally.id}

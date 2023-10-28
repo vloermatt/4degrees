@@ -32,72 +32,84 @@ const UserTally = ({ tally, socket, rank }: Props): JSX.Element => {
 
   const getClassByRank = (rank?: number) => {
     if (!rank) {
-      return ["bg-green-500"];
+      return ["border-green-500/80"];
     }
     switch (rank) {
       case 1:
-        return ["bg-yellow-300"];
+        return ["border-none bg-green-500"];
       case 2:
-        return ["bg-gray-300"];
+        return ["border-none bg-green-500/60"];
       case 3:
-        return ["bg-amber-500"];
+        return ["border-none bg-green-500/30"];
       default:
-        return ["bg-green-500"];
+        return ["border-none border-green-500"];
+    }
+  };
+
+  const getBorderClassByRank = (rank?: number) => {
+    if (!rank) {
+      return [""];
+    }
+    switch (rank) {
+      case 1:
+        return ["user-tally-border user-tally-border-gold"];
+      case 2:
+        return ["user-tally-border user-tally-border-silver"];
+      case 3:
+        return ["user-tally-border user-tally-border-bronze"];
+      default:
+        return [""];
     }
   };
 
   return (
-    <div
-      className={clsx(
-        twMerge(
-          clsx(
-            "m-auto",
-            "flex",
-            "h-full",
-            "w-full",
-            "flex-col",
-            "self-center",
-            "rounded",
-            ...getClassByRank(rank),
-            "p-2",
-            "text-center",
-            "font-semibold",
-            "shadow-lg",
-            "border-2",
-            "border-green-500",
-            "relative",
-          ),
-        ),
-      )}
-      key={animationKey}
-    >
-      <motion.div
+    <div className="user-tally-container">
+      <div
+        className={clsx(twMerge(clsx("user-tally", ...getClassByRank(rank))))}
         key={animationKey}
-        animate={{
-          //   scale: [1, 1.1, 1.1, 1.1, 1],
-          rotate: [0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0],
-          //   borderRadius: ["100%", "20%", "20%", "20%", "100%"],
-        }}
-        className="m-auto w-5/6 rounded-full bg-gradient-to-b from-brand-500 to-[#15162c]"
-        transition={{
-          duration: 2,
-          ease: "easeInOut",
-          times: [0, 0.2, 0.5, 0.8, 1],
-          repeat: 0,
-          repeatDelay: animationKey,
-        }}
       >
-        <img src={tally.avatar} />
-      </motion.div>
-      <p className="break-words">{tally.nickname}</p>
-      <p>
-        {tally.home} / {tally.away}
-      </p>
-      {message ? (
-        <div className="absolute right-[-20px] top-[-20px] flex h-10 w-fit items-center justify-center rounded-full bg-white p-2 shadow-lg">
-          <p>{message}</p>
+        <div>
+          {rank ? (
+            <div className="absolute right-0 top-0">
+              <span className="bg-white-50 text-5xl">
+                {rank === 1 ? <p>🥇</p> : null}
+                {rank === 2 ? <p>🥈</p> : null}
+                {rank === 3 ? <p>🥉</p> : null}
+              </span>
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
-      ) : null}
+        <motion.div
+          key={animationKey}
+          animate={{
+            //   scale: [1, 1.1, 1.1, 1.1, 1],
+            rotate: [0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0],
+            //   borderRadius: ["100%", "20%", "20%", "20%", "100%"],
+          }}
+          className="m-auto w-5/6 rounded-full bg-gradient-to-b from-brand-500 to-[#15162c]"
+          transition={{
+            duration: 2,
+            ease: "easeInOut",
+            times: [0, 0.2, 0.5, 0.8, 1],
+            repeat: 0,
+            repeatDelay: animationKey,
+          }}
+        >
+          <img src={tally.avatar} />
+        </motion.div>
+        <p className="break-words">{tally.nickname}</p>
+        <p>
+          {tally.home} / {tally.away}
+        </p>
+        {message ? (
+          <div className="banter">
+            <p>{message}</p>
+          </div>
+        ) : null}
+      </div>
+      <div className={clsx(twMerge(clsx(getBorderClassByRank(rank))))}></div>
     </div>
   );
 };

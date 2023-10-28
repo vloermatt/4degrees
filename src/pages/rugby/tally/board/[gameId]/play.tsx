@@ -64,7 +64,7 @@ export default (): JSX.Element => {
   };
   return (
     <main className="flex h-screen">
-      <div className="m-auto flex h-screen w-screen flex-col self-center rounded bg-green-500 shadow-lg shadow-green-700">
+      <div className="flex h-screen w-screen flex-col self-center bg-gradient-to-tl from-[#00419a] to-[#57be46]">
         {getTallyQuery.isLoading ? (
           <LoadingShip />
         ) : (
@@ -80,7 +80,7 @@ export default (): JSX.Element => {
             onSubmit={handleCreate}
           >
             {({ handleChange, values, handleSubmit }) => (
-              <form className="m-auto flex flex-col space-y-2 p-5">
+              <form className="flex flex-col space-y-2 p-5">
                 {createTallyMutation.isLoading ||
                 createTallyMutation.data ||
                 getTallyQuery.data ? (
@@ -131,16 +131,20 @@ export default (): JSX.Element => {
                       transition={{
                         delay: 2,
                       }}
-                      className="text-center text-white"
+                      className="text-white text-center"
                     >
                       <p>Fingers crossed {values.nickname} 🤞</p>
                       <p>
                         Your tally should now be visible on the beeg screen 😎
                       </p>
                       <div className="mt-10 grid grid-cols-3">
-                        <div className="h-full space-y-2 self-center">
-                          <img src={getTallyBoardQuery.data?.home.logo ?? ""} />
-                          <label className="font-semibold">
+                        <div className="flex h-full flex-col items-center justify-between space-y-2 self-center">
+                          <div className="flex h-[100px] items-center">
+                            <img
+                              src={getTallyBoardQuery.data?.home.logo ?? ""}
+                            />
+                          </div>
+                          <label className="mt-auto font-semibold">
                             {getTallyBoardQuery.data?.home.name ?? "Home"}
                           </label>
                           <p className="text-4xl font-semibold">
@@ -156,9 +160,13 @@ export default (): JSX.Element => {
                             }}
                           />
                         </div>
-                        <div className="h-full space-y-2 self-center">
-                          <img src={getTallyBoardQuery.data?.away.logo ?? ""} />
-                          <label className="font-semibold">
+                        <div className="flex h-full flex-col items-center justify-between space-y-2 self-center">
+                          <div className="flex h-[100px] items-center">
+                            <img
+                              src={getTallyBoardQuery.data?.away.logo ?? ""}
+                            />
+                          </div>
+                          <label className="mt-auto font-semibold">
                             {getTallyBoardQuery.data?.away.name ?? "Away"}
                           </label>
                           <p className="text-4xl font-semibold">
@@ -166,8 +174,8 @@ export default (): JSX.Element => {
                           </p>
                         </div>
                       </div>
-                      <div className="flex flex-col">
-                        <label className="text-left font-semibold">
+                      <div className="mt-10 flex flex-col">
+                        <label className="mb-2 text-center text-xl font-semibold text-white-50">
                           Banter
                         </label>
                         <input
@@ -175,6 +183,7 @@ export default (): JSX.Element => {
                           onChange={handleChange}
                           type="text"
                           className="h-8 rounded p-2 text-black-900"
+                          placeholder="Go Team!"
                         />
                       </div>
                       <button
@@ -182,7 +191,7 @@ export default (): JSX.Element => {
                           e.preventDefault();
                           onLetsGo(values.banter);
                         }}
-                        className="mt-5 w-full rounded bg-orange-500 p-2 text-center font-semibold shadow-md shadow-orange-700 hover:bg-orange-400"
+                        className="mt-5 w-full rounded bg-brand-500 p-2 text-center font-semibold text-white-50 shadow-md shadow-brand-700 hover:bg-brand-400"
                       >
                         Let's Gooo!
                       </button>
@@ -191,9 +200,11 @@ export default (): JSX.Element => {
                 ) : (
                   <>
                     <div className="grid grid-cols-3">
-                      <div className="h-full space-y-2 self-center">
-                        <img src={getTallyBoardQuery.data?.home.logo ?? ""} />
-                        <label className="font-semibold">
+                      <div className="flex h-full flex-col justify-between space-y-2 self-center">
+                        <div className="flex h-[100px] items-center">
+                          <img src={getTallyBoardQuery.data?.home.logo ?? ""} />
+                        </div>
+                        <label className="text-center font-semibold">
                           {getTallyBoardQuery.data?.home.name ?? "Home"}
                         </label>
                         <input
@@ -212,9 +223,11 @@ export default (): JSX.Element => {
                           }}
                         />
                       </div>
-                      <div className="h-full space-y-2 self-center">
-                        <img src={getTallyBoardQuery.data?.away.logo ?? ""} />
-                        <label className="font-semibold">
+                      <div className="flex h-full flex-col justify-between space-y-2 self-center">
+                        <div className="flex h-[100px] items-center">
+                          <img src={getTallyBoardQuery.data?.away.logo ?? ""} />
+                        </div>
+                        <label className="text-center font-semibold">
                           {getTallyBoardQuery.data?.away.name ?? "Away"}
                         </label>
                         <input
@@ -236,7 +249,7 @@ export default (): JSX.Element => {
                         e.preventDefault();
                         handleSubmit();
                       }}
-                      className="rounded bg-orange-500 p-2 text-center font-semibold shadow-md shadow-orange-700 hover:bg-orange-400"
+                      className="rounded bg-brand-500 p-2 text-center font-semibold shadow-md shadow-brand-700 hover:bg-brand-400"
                     >
                       Let's Go!
                     </button>

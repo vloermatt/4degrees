@@ -7,7 +7,7 @@ export default (): JSX.Element => {
     <main className="min-h-screen bg-gradient-to-b from-[#2e026d] to-[#15162c]">
       <div className="m-auto grid w-1/2 grid-cols-2 gap-10 p-10">
         <div className="flex flex-col rounded bg-green-500 p-5 shadow-lg shadow-green-700">
-          <h2 className="text-3xl font-semibold text-white">Rugby Leagues</h2>
+          <h2 className="text-white text-3xl font-semibold">Rugby Leagues</h2>
           <div className="m-auto w-1/2">
             <Lottie
               options={{
@@ -19,13 +19,13 @@ export default (): JSX.Element => {
           </div>
           <a
             href="rugby/leagues"
-            className="rounded bg-orange-500 p-2 text-center font-semibold shadow-md shadow-orange-700 hover:bg-orange-400"
+            className="rounded bg-brand-500 p-2 text-center font-semibold shadow-md shadow-brand-700 hover:bg-brand-400"
           >
             View more
           </a>
         </div>
         <div className="flex flex-col rounded bg-green-500 p-5 shadow-lg shadow-green-700">
-          <h2 className="text-3xl font-semibold text-white">Tackle & Tally</h2>
+          <h2 className="text-white text-3xl font-semibold">Tackle & Tally</h2>
           <div className="m-auto w-1/2">
             <Lottie
               options={{
@@ -37,7 +37,7 @@ export default (): JSX.Element => {
           </div>
           <a
             href="rugby/tally/board"
-            className="rounded bg-orange-500 p-2 text-center font-semibold shadow-md shadow-orange-700 hover:bg-orange-400"
+            className="rounded bg-brand-500 p-2 text-center font-semibold shadow-md shadow-brand-700 hover:bg-brand-400"
           >
             View more
           </a>
