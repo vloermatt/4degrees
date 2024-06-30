@@ -18,11 +18,11 @@ export default (): JSX.Element => {
   }, [countriesQuery.error]);
 
   const handleRoute = (countryID: string) => {
-    router.push(`/rugby/leagues/${countryID}/2023`);
+    router.push(`/rugby/leagues/${countryID}/2024`);
   };
   return (
     <main className="m-auto flex min-h-screen w-screen flex-col bg-gradient-to-b from-[#2e026d] to-[#15162c] p-5">
-      <h1 className="text-5xl font-semibold text-white">Countries</h1>
+      <h1 className="text-white text-5xl font-semibold">Countries</h1>
       {countriesQuery.isLoading ? (
         <LoadingShip />
       ) : (
